@@ -3,6 +3,7 @@ import { BiExit } from "react-icons/bi";
 import { auth } from '../../Connection/firebaseConnection';
 import { signOut } from 'firebase/auth';
 import { toast } from 'react-toastify';
+import { useState, useEffect } from 'react';
 
 
 export default function Header() {
