@@ -32,7 +32,7 @@ export default function Header() {
             </div>
 
             <div className='areaUser'>
-                <span className='userName'>{user.email}com.br</span>
+                <span className='userName'>{user.email}</span>
                 <button className='btnSair' onClick={sairApp}>
                     <BiExit size={35} color='#FFF' className='iconLogout'/>
                 </button>
