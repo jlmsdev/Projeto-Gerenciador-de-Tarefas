@@ -6,6 +6,13 @@ import { toast } from 'react-toastify';
 
 
 export default function Header() {
+     const [user, setUser] = useState({});
+
+    useEffect(() => {
+        setUser(
+            JSON.parse(localStorage.getItem('userDetail'))
+        );
+    }, [])
 
     async function sairApp() {
         await signOut(auth)
@@ -24,7 +31,7 @@ export default function Header() {
             </div>
 
             <div className='areaUser'>
-                <span className='userName'>teste@teste.com.br</span>
+                <span className='userName'>{user.email}com.br</span>
                 <button className='btnSair' onClick={sairApp}>
                     <BiExit size={35} color='#FFF' className='iconLogout'/>
                 </button>
