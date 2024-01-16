@@ -52,7 +52,7 @@ export default function Tarefas() {
     useEffect(() => {
         async function carregaTarefasPendentes() {
             const listaRef = collection(db, 'tarefa');
-            const queryBusca = query(listaRef, orderBy('created', 'desc') );
+            const queryBusca = query(listaRef, orderBy('created', 'asc') );
     
             onSnapshot(queryBusca, (snapshot) => {
                 let lista = [];
