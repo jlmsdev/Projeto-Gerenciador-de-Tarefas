@@ -1,0 +1,42 @@
+.containerHeader {
+    width: 100%;
+    height: 80px;
+    padding: 0 1rem;
+    background-color: #252525;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+}
+
+.appName {
+    color: #FFF;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.brand {
+    color: #007b9e;
+    font-weight: bold;
+    font-size: 2.1rem;
+}
+
+.areaUser {
+
+    display: flex;
+    align-items: center;
+
+    color: #cecece;
+    font-weight: bold;
+}
+
+.btnSair {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+
+.iconLogout {
+    margin-left: 1rem;
+}
