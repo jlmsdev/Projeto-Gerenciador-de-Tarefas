@@ -3,9 +3,17 @@ import { BiExit } from "react-icons/bi";
 import { auth } from '../../Connection/firebaseConnection';
 import { signOut } from 'firebase/auth';
 import { toast } from 'react-toastify';
+import { useState, useEffect } from 'react';
 
 
 export default function Header() {
+     const [user, setUser] = useState({});
+
+    useEffect(() => {
+        setUser(
+            JSON.parse(localStorage.getItem('userDetail'))
+        );
+    }, [])
 
     async function sairApp() {
         await signOut(auth)
@@ -24,7 +32,7 @@ export default function Header() {
             </div>
 
             <div className='areaUser'>
-                <span className='userName'>teste@teste.com.br</span>
+                <span className='userName'>{user.email}</span>
                 <button className='btnSair' onClick={sairApp}>
                     <BiExit size={35} color='#FFF' className='iconLogout'/>
                 </button>

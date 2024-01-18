@@ -54,7 +54,11 @@ export default function Tarefas() {
         async function carregaTarefasPendentes() {
             const data = JSON.parse(localStorage.getItem('userDetail'))
             const listaRef = collection(db, 'tarefa');
+
             const queryBusca = query(listaRef, orderBy('created', 'desc'), where('uid', '==', data?.uid ) );
+
+            const queryBusca = query(listaRef, orderBy('created', 'asc') );
+
     
             onSnapshot(queryBusca, (snapshot) => {
                 let lista = [];
