@@ -3,7 +3,7 @@ import Header from '../../components/Header'
 import { FcClock } from "react-icons/fc";
 import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
-import { addDoc, collection, onSnapshot, query, orderBy, doc, deleteDoc } from 'firebase/firestore'
+import { addDoc, collection, onSnapshot, query, orderBy, doc, deleteDoc, where } from 'firebase/firestore'
 import { db } from '../../Connection/firebaseConnection';
 
 export default function Tarefas() {
@@ -19,6 +19,7 @@ export default function Tarefas() {
             JSON.parse(localStorage.getItem('userDetail'))
         );
     }, [])
+   
 
 
 
@@ -51,8 +52,9 @@ export default function Tarefas() {
 
     useEffect(() => {
         async function carregaTarefasPendentes() {
+            const data = JSON.parse(localStorage.getItem('userDetail'))
             const listaRef = collection(db, 'tarefa');
-            const queryBusca = query(listaRef, orderBy('created', 'desc') );
+            const queryBusca = query(listaRef, orderBy('created', 'desc'), where('uid', '==', data?.uid ) );
     
             onSnapshot(queryBusca, (snapshot) => {
                 let lista = [];
@@ -74,8 +76,9 @@ export default function Tarefas() {
 
     useEffect(() => {
         async function carregaTarefasConcluidas() {
+            const data = JSON.parse(localStorage.getItem('userDetail'))
             const listaRef = collection(db, 'tarefaExcluida');
-            const queryBusca = query(listaRef, orderBy('created', 'desc'));
+            const queryBusca = query(listaRef, orderBy('created', 'desc'), where('uid', '==', data?.uid) );
 
             onSnapshot(queryBusca, (snapshot) => {
                 let lista = [];
