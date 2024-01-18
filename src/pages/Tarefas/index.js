@@ -57,8 +57,6 @@ export default function Tarefas() {
 
             const queryBusca = query(listaRef, orderBy('created', 'desc'), where('uid', '==', data?.uid ) );
 
-            const queryBusca = query(listaRef, orderBy('created', 'asc') );
-
     
             onSnapshot(queryBusca, (snapshot) => {
                 let lista = [];
