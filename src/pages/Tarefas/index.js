@@ -11,8 +11,10 @@ export default function Tarefas() {
     const [user, setUser] = useState({});
     const [listaTarefaPendente, setListaTarefaPendente] = useState([]);
     const [listaTarefaConcluida, setListaTarefaConcluida] = useState([]);
+    const [loading, setLoading] = useState(true);
     const contadorListaPendente = listaTarefaPendente.length;
     const contadorListaConcluido = listaTarefaConcluida.length;
+
 
     useEffect(() => {
         setUser(
@@ -157,31 +159,36 @@ export default function Tarefas() {
 
                     {listaTarefaPendente.length === 0 && (<span>Não existem tarefas pendentes.</span>)}
 
-                    {listaTarefaPendente.map((item) => (
-                        
-                        <div className='cardTarefa' key={item.id}>
-                            <p className='nomeTarefa'>{item.tarefa}</p>
 
-                            <span className='criacaoTarefaTime'>
-                                Criado em: 
-                                <time>{item.dataFormatada}</time>
-                                <FcClock size={20} className='iconClock'/>
-                            </span>
-                            <span className='criacaoTarefaUser'>
-                                <p>Criado por: {item.email}</p>
-                            </span>
+                    <div className='boxTarefasPendentes'>
+                        {listaTarefaPendente.map((item) => (
+                            
+                            <div className='cardTarefa' key={item.id}>
+                                <p className='nomeTarefa'>{item.tarefa}</p>
 
-                            <div className='areaButtons'>
-                                <button className='btnConcluir' onClick={() => concluiExcluiTarefa(item)}>
-                                    Concluir
-                                </button>
+                                <span className='criacaoTarefaTime'>
+                                    Criado em: 
+                                    <time>{item.dataFormatada}</time>
+                                    <FcClock size={20} className='iconClock'/>
+                                </span>
+                                <span className='criacaoTarefaUser'>
+                                    <p>Criado por: {item.email}</p>
+                                </span>
 
-                                <p className='hashTarefa'>
-                                    ID tarefa: {item.id}
-                                </p>
+                                <div className='areaButtons'>
+                                    <button className='btnConcluir' onClick={() => concluiExcluiTarefa(item)}>
+                                        Concluir
+                                    </button>
+
+                                    <p className='hashTarefa'>
+                                        ID tarefa: {item.id}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+
+                    
 
                 </div>
 
@@ -204,7 +211,7 @@ export default function Tarefas() {
                             </span>
 
                             <div className='areaButtons'>
-                                <button className='btnConcluir' onClick={ () => excluiTarefaDefinitivo(item.id) }>
+                                <button className='btnConcluir excluir' onClick={ () => excluiTarefaDefinitivo(item.id) }>
                                     Excluir tarefa definitiva
                                 </button>
 
