@@ -196,30 +196,34 @@ export default function Tarefas() {
 
                     {listaTarefaConcluida.length === 0 && (<span>Não existem tarefas Concluidas.</span>)}
 
-                    {listaTarefaConcluida.map((item) => (
-                        <div className='cardTarefa' key={item.id}>
-                            <p className='nomeTarefa'>{item.tarefa}</p>
+                    <div className='boxTarefasConcluidas'>
+                        {listaTarefaConcluida.map((item) => (
+                            <div className='cardTarefa' key={item.id}>
+                                <p className='nomeTarefa'>{item.tarefa}</p>
 
-                            <span className='criacaoTarefaTime'>
-                                Criado em: 
-                                <time>{item.created}</time>
-                                <FcClock size={20} className='iconClock'/>
-                            </span>
-                            <span className='criacaoTarefaUser'>
-                                <p>Criado por: {item.email}</p>
-                            </span>
+                                <span className='criacaoTarefaTime'>
+                                    Criado em: 
+                                    <time>{item.created}</time>
+                                    <FcClock size={20} className='iconClock'/>
+                                </span>
+                                <span className='criacaoTarefaUser'>
+                                    <p>Criado por: {item.email}</p>
+                                </span>
 
-                            <div className='areaButtons'>
-                                <button className='btnConcluir excluir' onClick={ () => excluiTarefaDefinitivo(item.id) }>
-                                    Excluir tarefa definitiva
-                                </button>
+                                <div className='areaButtons'>
+                                    <button className='btnConcluir excluir' onClick={ () => excluiTarefaDefinitivo(item.id) }>
+                                        Excluir tarefa definitiva
+                                    </button>
 
-                                <p className='hashTarefa'>
-                                    ID Tarefa: {item.id}
-                                </p>
+                                    <p className='hashTarefa'>
+                                        ID Tarefa: {item.id}
+                                    </p>
+                                </div>
                             </div>
+                        ))}
                     </div>
-                    ))}
+
+                    
                 </div>
             </main>
         </>
