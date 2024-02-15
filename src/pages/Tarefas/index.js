@@ -11,7 +11,6 @@ export default function Tarefas() {
     const [user, setUser] = useState({});
     const [listaTarefaPendente, setListaTarefaPendente] = useState([]);
     const [listaTarefaConcluida, setListaTarefaConcluida] = useState([]);
-    const [loading, setLoading] = useState(true);
     const contadorListaPendente = listaTarefaPendente.length;
     const contadorListaConcluido = listaTarefaConcluida.length;
 
