@@ -1,9 +1,10 @@
 import './tarefas.css';
 import Header from '../../components/Header'
 import { FcClock } from "react-icons/fc";
+import { CiSearch } from "react-icons/ci";
 import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
-import { addDoc, collection, onSnapshot, query, orderBy, doc, deleteDoc, where } from 'firebase/firestore'
+import { addDoc, collection, onSnapshot, query, orderBy, doc, deleteDoc, where, updateDoc, getDoc } from 'firebase/firestore'
 import { db } from '../../Connection/firebaseConnection';
 
 export default function Tarefas() {
@@ -11,6 +12,8 @@ export default function Tarefas() {
     const [user, setUser] = useState({});
     const [listaTarefaPendente, setListaTarefaPendente] = useState([]);
     const [listaTarefaConcluida, setListaTarefaConcluida] = useState([]);
+    const [buscaItem, setBuscaItem] = useState('');
+    const [inputEdicaoTarefa, setInputEdicaoTarefa] = useState('');
     const contadorListaPendente = listaTarefaPendente.length;
     const contadorListaConcluido = listaTarefaConcluida.length;
 
@@ -133,6 +136,37 @@ export default function Tarefas() {
         })
     }
 
+    async function buscarTarefa(e) {
+        e.preventDefault();
+
+        if(buscaItem === '') {
+            toast.warn('Campo não pode ser vazio.');
+            return;
+        }
+
+        const tarefaRef = doc(db, 'tarefa', buscaItem)
+        await getDoc(tarefaRef)
+        .then((snapshot) => {
+            setInputEdicaoTarefa(snapshot.data()?.tarefa)
+        })
+    }
+
+
+    async function atualizaTarefa() {
+        const tarefaRef = doc(db, 'tarefa', buscaItem);
+        await updateDoc(tarefaRef, {
+            tarefa: inputEdicaoTarefa
+        })
+        .then(() => {
+            console.log('Tarefa Atualizada')
+            setBuscaItem('');
+            setInputEdicaoTarefa('');
+            toast.success('Tarefa Editada.')
+        })
+        .catch((err) => {
+            toast.error(`Algo deu errado ${err}`);
+        })
+    }
 
     return(
         <>
@@ -149,9 +183,37 @@ export default function Tarefas() {
                             onChange={ (e)=> setTarefa(e.target.value) }
 
                         />
-                        <button className='btnCadastraTarefa' type='submit'>
-                            Cadastrar tarefa
-                        </button>
+                            <button className='btnCadastraTarefa' type='submit'>
+                                Cadastrar tarefa
+                            </button>
+                    </form>
+
+                    <form className='boxFormEditTarefa' onSubmit={buscarTarefa}>
+
+                        <div className='boxInputEdit'>
+                            <input type="text"
+                            placeholder='Digite o ID da tarefa para editar'
+                            value={buscaItem}
+                            onChange={ (e) => setBuscaItem(e.target.value)}
+                            />
+                            <button type='submit' className='btnSearchTask'>
+                                <CiSearch  size={25} color='#0069d9' className='btnSearchIcon'/>
+                            </button>
+                        </div>
+
+                        {buscaItem.length >= 15 && (
+                            <>
+                                    <textarea className='inputEdicaoTarefa'
+                                    placeholder='Edite sua Tarefa!'
+                                    value={inputEdicaoTarefa}
+                                    onChange={ (e) => setInputEdicaoTarefa(e.target.value)}
+                                />
+
+                                <a href="#atualizarTarefa" onClick={atualizaTarefa}>
+                                    Atualizar
+                                </a>
+                            </>
+                        )}
                     </form>
 
                     <h2>Tarefas Pendentes ({contadorListaPendente})</h2>

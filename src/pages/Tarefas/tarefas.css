@@ -13,7 +13,7 @@
     padding: 1rem;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 7px;
-    margin-bottom: 2rem;
+    margin-bottom: .5rem;
     position: sitck;
     z-index: 99;
 }
@@ -31,8 +31,68 @@
     outline: none;
     margin-bottom: .5rem;
 }
+
+.boxFormEditTarefa {
+    width: 100%;
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 7px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.boxInputEdit {
+    width: 100%;
+    display: flex;
+    margin-bottom: .5rem;
+}
+
+.boxFormEditTarefa .inputEdicaoTarefa {
+    width: 100%;
+    height: 100px;
+    resize: none;
+    padding: 1rem;
+    font-family: "Roboto", sans-serif;
+    font-size: 1rem;
+    border-radius: 7px;
+    outline: none;
+}
+
+.boxFormEditTarefa a {
+    width: 100%;
+    background-color: #138496;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFF;
+    height: 40px;
+    border-radius: 7px;
+    margin-top: .5rem;
+    font-weight: bold;
+}
+
+.boxFormEditTarefa input {
+    width: 100%;
+    height: 35px;
+    padding: 0 1rem;
+    font-family: "Roboto", sans-serif;
+}
+
+.btnSearchTask {
+    background-color: transparent;
+    border: 0;
+    display: flex;
+}
+.btnSearchIcon {
+    margin-left: .5rem;
+}
+
+
 .btnCadastraTarefa {
-    margin-bottom: 3rem;
+    margin-bottom: .5rem;
     height: 40px;
     border: 0;
     border-radius: 7px;
