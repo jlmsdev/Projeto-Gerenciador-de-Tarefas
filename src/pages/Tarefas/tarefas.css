@@ -61,7 +61,7 @@
     outline: none;
 }
 
-.boxFormEditTarefa a {
+.boxFormEditTarefa .atualizaTarefa {
     width: 100%;
     background-color: #138496;
     display: flex;
@@ -79,9 +79,11 @@
     height: 35px;
     padding: 0 1rem;
     font-family: "Roboto", sans-serif;
+    cursor: not-allowed;
 }
 
-.btnSearchTask {
+.btnSearchTask,
+.btnLimpaInput {
     background-color: transparent;
     border: 0;
     display: flex;
@@ -197,6 +199,13 @@
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-size: .7rem;
+    padding: .3rem;
+    border-radius: 7px;
+    background-color: #0069D9;
+}
+
+.hashTarefa a {
+    color: #FFF;
 }
 
 .btnConcluir.excluir {

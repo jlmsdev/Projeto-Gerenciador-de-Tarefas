@@ -2,6 +2,7 @@ import './tarefas.css';
 import Header from '../../components/Header'
 import { FcClock } from "react-icons/fc";
 import { CiSearch } from "react-icons/ci";
+import { MdClose } from "react-icons/md";
 import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { addDoc, collection, onSnapshot, query, orderBy, doc, deleteDoc, where, updateDoc, getDoc } from 'firebase/firestore'
@@ -168,6 +169,16 @@ export default function Tarefas() {
         })
     }
 
+    function capturaID(id) {
+        setBuscaItem(id);
+    }
+
+
+    function limpaCamposInput() {
+        setBuscaItem('');
+        setInputEdicaoTarefa('');
+    }
+
     return(
         <>
             <Header />
@@ -192,13 +203,17 @@ export default function Tarefas() {
 
                         <div className='boxInputEdit'>
                             <input type="text"
-                            placeholder='Digite o ID da tarefa para editar'
+                            placeholder='Clique no ID da tarefa para buscar.'
                             value={buscaItem}
                             onChange={ (e) => setBuscaItem(e.target.value)}
+                            disabled
                             />
                             <button type='submit' className='btnSearchTask'>
                                 <CiSearch  size={25} color='#0069d9' className='btnSearchIcon'/>
                             </button>
+                            <a href='#limpaCampo' className='btnLimpaInput' onClick={limpaCamposInput}>
+                                <MdClose size={25} color='#0069d9' className='btnCloseIcon' />
+                            </a>
                         </div>
 
                         {buscaItem.length >= 15 && (
@@ -209,7 +224,7 @@ export default function Tarefas() {
                                     onChange={ (e) => setInputEdicaoTarefa(e.target.value)}
                                 />
 
-                                <a href="#atualizarTarefa" onClick={atualizaTarefa}>
+                                <a href="#atualizarTarefa" onClick={atualizaTarefa} className='atualizaTarefa'>
                                     Atualizar
                                 </a>
                             </>
@@ -242,7 +257,9 @@ export default function Tarefas() {
                                     </button>
 
                                     <p className='hashTarefa'>
-                                        ID tarefa: {item.id}
+                                        <a href="#id" onClick={() => capturaID(item.id)}>
+                                         ID tarefa: {item.id}
+                                        </a>
                                     </p>
                                 </div>
                             </div>
