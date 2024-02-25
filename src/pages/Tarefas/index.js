@@ -17,15 +17,17 @@ export default function Tarefas() {
     const [inputEdicaoTarefa, setInputEdicaoTarefa] = useState('');
     const contadorListaPendente = listaTarefaPendente.length;
     const contadorListaConcluido = listaTarefaConcluida.length;
+    const hashValidator = 'VCGwgfv6GdOn7KSH1dJWgAHUm9U2';
+
 
 
     useEffect(() => {
         setUser(
             JSON.parse(localStorage.getItem('userDetail'))
         );
-    }, [])
-   
+    }, [user.email])
 
+    
 
 
     async function cadastraTarefa(e) {
@@ -44,7 +46,8 @@ export default function Tarefas() {
             created: new Date(),
             dataFormatada: dataFormatada,
             uid: user?.uid,
-            email: user?.email
+            email: user?.email,
+            emailFormatado: user?.email.split('@')[0]
         })
         .then(() => {
             toast.success('Tarefa registrada.');
@@ -72,7 +75,8 @@ export default function Tarefas() {
                         tarefa: doc.data()?.tarefa,
                         email: doc.data()?.email,
                         uid: doc.data()?.uid,
-                        dataFormatada: doc.data()?.dataFormatada
+                        dataFormatada: doc.data()?.dataFormatada,
+                        emailFormatado: doc.data()?.emailFormatado
                     })
                 })
                 setListaTarefaPendente(lista);
@@ -96,7 +100,8 @@ export default function Tarefas() {
                         tarefa: doc.data()?.tarefa,
                         created: doc.data()?.created,
                         email: doc.data()?.email,
-                        uid: doc.data()?.uid
+                        uid: doc.data()?.uid,
+                        emailFormatado: doc.data()?.emailFormatado
                     })
                 })
                 setListaTarefaConcluida(lista);
@@ -112,7 +117,8 @@ export default function Tarefas() {
             tarefa: item.tarefa,
             created: item.dataFormatada,
             uid: item?.uid,
-            email: item?.email
+            email: item?.email,
+            emailFormatado: item?.email.split('@')[0]
         })
         .then(() => {
             toast.success('Tarefa concluida.');
@@ -159,7 +165,6 @@ export default function Tarefas() {
             tarefa: inputEdicaoTarefa
         })
         .then(() => {
-            console.log('Tarefa Atualizada')
             setBuscaItem('');
             setInputEdicaoTarefa('');
             toast.success('Tarefa Editada.')
@@ -203,7 +208,7 @@ export default function Tarefas() {
 
                         <div className='boxInputEdit'>
                             <input type="text"
-                            placeholder='Clique no ID da tarefa para buscar.'
+                            placeholder='Clique no ID da tarefa para editar e na lupa para trazer a tarefa.'
                             value={buscaItem}
                             onChange={ (e) => setBuscaItem(e.target.value)}
                             disabled
@@ -239,7 +244,7 @@ export default function Tarefas() {
                     <div className='boxTarefasPendentes'>
                         {listaTarefaPendente.map((item) => (
                             
-                            <div className='cardTarefa' key={item.id}>
+                            <div className='cardTarefa etiquetaPendente' key={item.id}>
                                 <p className='nomeTarefa'>{item.tarefa}</p>
 
                                 <span className='criacaoTarefaTime'>
@@ -248,7 +253,7 @@ export default function Tarefas() {
                                     <FcClock size={20} className='iconClock'/>
                                 </span>
                                 <span className='criacaoTarefaUser'>
-                                    <p>Criado por: {item.email}</p>
+                                    <p>Criado por: {item.emailFormatado === undefined ? (item.email) : (item.emailFormatado)}</p>
                                 </span>
 
                                 <div className='areaButtons'>
@@ -277,7 +282,7 @@ export default function Tarefas() {
 
                     <div className='boxTarefasConcluidas'>
                         {listaTarefaConcluida.map((item) => (
-                            <div className='cardTarefa' key={item.id}>
+                            <div className='cardTarefa etiquetaConcluida' key={item.id}>
                                 <p className='nomeTarefa'>{item.tarefa}</p>
 
                                 <span className='criacaoTarefaTime'>
@@ -286,17 +291,15 @@ export default function Tarefas() {
                                     <FcClock size={20} className='iconClock'/>
                                 </span>
                                 <span className='criacaoTarefaUser'>
-                                    <p>Criado por: {item.email}</p>
+                                    <p>Criado por: {item.emailFormatado === undefined ? (item.email) : (item.emailFormatado)}</p>
                                 </span>
 
                                 <div className='areaButtons'>
-                                    <button className='btnConcluir excluir' onClick={ () => excluiTarefaDefinitivo(item.id) }>
-                                        Excluir tarefa definitiva
-                                    </button>
-
-                                    <p className='hashTarefa'>
-                                        ID Tarefa: {item.id}
-                                    </p>
+                                    {item.uid === hashValidator && (
+                                        <button className='btnConcluir excluir' onClick={ () => excluiTarefaDefinitivo(item.id) }>
+                                            Excluir tarefa definitiva
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         ))}
