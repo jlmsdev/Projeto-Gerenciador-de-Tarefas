@@ -17,6 +17,7 @@ export default function Tarefas() {
     const [inputEdicaoTarefa, setInputEdicaoTarefa] = useState('');
     const contadorListaPendente = listaTarefaPendente.length;
     const contadorListaConcluido = listaTarefaConcluida.length;
+    const contadorCaracter = tarefa.length;
     const hashValidator = 'VCGwgfv6GdOn7KSH1dJWgAHUm9U2';
 
 
@@ -202,6 +203,9 @@ export default function Tarefas() {
                             <button className='btnCadastraTarefa' type='submit'>
                                 Cadastrar tarefa
                             </button>
+                            <div className='contadorCaracter'>
+                                Letras: {contadorCaracter}
+                            </div>
                     </form>
 
                     <form className='boxFormEditTarefa' onSubmit={buscarTarefa}>
