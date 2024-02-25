@@ -18,6 +18,7 @@ export default function Tarefas() {
     const contadorListaPendente = listaTarefaPendente.length;
     const contadorListaConcluido = listaTarefaConcluida.length;
     const contadorCaracter = tarefa.length;
+    const contadorPalavras = tarefa.split(' ').length;
     const hashValidator = 'VCGwgfv6GdOn7KSH1dJWgAHUm9U2';
 
 
@@ -204,7 +205,7 @@ export default function Tarefas() {
                                 Cadastrar tarefa
                             </button>
                             <div className='contadorCaracter'>
-                                Letras: {contadorCaracter}
+                                Palavras: {tarefa.length === 0 ? (0): (contadorPalavras)} | Letras: {contadorCaracter}
                             </div>
                     </form>
 
