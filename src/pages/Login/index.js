@@ -57,13 +57,6 @@ export default function Login() {
                     <button className='btnLogar'>
                         Logar
                     </button>
-
-                    <span className='msgCad'>
-                        Não possui cadastro ?
-                        <Link to='/cadastro'>
-                            Cadastre-se
-                        </Link>
-                    </span>
                 </div>
 
             </form>
