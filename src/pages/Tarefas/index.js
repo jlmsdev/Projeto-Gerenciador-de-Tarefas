@@ -65,7 +65,7 @@ export default function Tarefas() {
             const data = JSON.parse(localStorage.getItem('userDetail'))
             const listaRef = collection(db, 'tarefa');
 
-            const queryBusca = query(listaRef, orderBy('created', 'desc'), where('uid', '==', data?.uid ) );
+            const queryBusca = query(listaRef, orderBy('created', 'asc'), where('uid', '==', data?.uid ) );
 
     
             onSnapshot(queryBusca, (snapshot) => {
@@ -91,7 +91,7 @@ export default function Tarefas() {
         async function carregaTarefasConcluidas() {
             const data = JSON.parse(localStorage.getItem('userDetail'))
             const listaRef = collection(db, 'tarefaExcluida');
-            const queryBusca = query(listaRef, orderBy('created', 'asc'), where('uid', '==', data?.uid) );
+            const queryBusca = query(listaRef, orderBy('created', 'desc'), where('uid', '==', data?.uid) );
 
             onSnapshot(queryBusca, (snapshot) => {
                 let lista = [];
