@@ -4,7 +4,7 @@ import { FcClock } from "react-icons/fc";
 import { CiSearch } from "react-icons/ci";
 import { MdClose } from "react-icons/md";
 import { toast } from 'react-toastify';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { addDoc, collection, onSnapshot, query, orderBy, doc, deleteDoc, where, updateDoc, getDoc } from 'firebase/firestore'
 import { db } from '../../Connection/firebaseConnection';
 
@@ -15,8 +15,6 @@ export default function Tarefas() {
     const [listaTarefaConcluida, setListaTarefaConcluida] = useState([]);
     const [buscaItem, setBuscaItem] = useState('');
     const [inputEdicaoTarefa, setInputEdicaoTarefa] = useState('');
-    const contadorListaPendente = listaTarefaPendente.length;
-    const contadorListaConcluido = listaTarefaConcluida.length;
     const contadorCaracter = tarefa.length;
     const contadorPalavras = tarefa.split(' ').length;
     const hashValidator = 'VCGwgfv6GdOn7KSH1dJWgAHUm9U2';
@@ -186,6 +184,14 @@ export default function Tarefas() {
         setInputEdicaoTarefa('');
     }
 
+    const totalTarefasPendentes = useMemo(() => {
+        return listaTarefaPendente.length;
+    }, [listaTarefaPendente]);
+
+    const totalTarefasConcluidas = useMemo(() => {
+        return listaTarefaConcluida.length;
+    }, [listaTarefaConcluida]);
+
     return(
         <>
             <Header />
@@ -241,7 +247,7 @@ export default function Tarefas() {
                         )}
                     </form>
 
-                    <h2>Tarefas Pendentes ({contadorListaPendente})</h2>
+                    <h2>Tarefas Pendentes ({totalTarefasPendentes})</h2>
 
                     {listaTarefaPendente.length === 0 && (<span>Não existem tarefas pendentes.</span>)}
 
@@ -281,7 +287,7 @@ export default function Tarefas() {
                 </div>
 
                 <div className='tarefasConcluidas'>
-                    <h2>Tarefas Concluidas ({contadorListaConcluido})</h2>
+                    <h2>Tarefas Concluidas ({totalTarefasConcluidas})</h2>
 
                     {listaTarefaConcluida.length === 0 && (<span>Não existem tarefas Concluidas.</span>)}
 
