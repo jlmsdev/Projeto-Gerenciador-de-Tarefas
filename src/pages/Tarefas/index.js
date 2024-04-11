@@ -200,7 +200,7 @@ export default function Tarefas() {
     function limpaCamposInput() {
         setBuscaItem('');
         setInputEdicaoTarefa('');
-        setTituloEdicaoTarefa();
+        setTituloEdicaoTarefa('');
     }
 
     const totalTarefasPendentes = useMemo(() => {
