@@ -60,6 +60,8 @@ export default function Tarefas() {
             toast.success('Tarefa registrada.');
             setTarefa('');
             setTituloTarefa('');
+            setTituloEdicaoTarefa('');
+            setInputEdicaoTarefa('');
         })
         .catch((err) => {
             console.log(`Algo deu errado: ${err}`);
