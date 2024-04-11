@@ -3,6 +3,9 @@ import Header from '../../components/Header'
 import { FcClock } from "react-icons/fc";
 import { CiSearch } from "react-icons/ci";
 import { MdClose } from "react-icons/md";
+import { BiTask } from "react-icons/bi";
+
+import { FaTasks } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import { useState, useEffect, useMemo } from 'react';
 import { addDoc, collection, onSnapshot, query, orderBy, doc, deleteDoc, where, updateDoc, getDoc } from 'firebase/firestore'
@@ -10,6 +13,7 @@ import { db } from '../../Connection/firebaseConnection';
 
 export default function Tarefas() {
     const [tarefa, setTarefa] = useState('');
+    const [tituloTarefa, setTituloTarefa] = useState('');
     const [user, setUser] = useState({});
     const [listaTarefaPendente, setListaTarefaPendente] = useState([]);
     const [listaTarefaConcluida, setListaTarefaConcluida] = useState([]);
@@ -42,6 +46,7 @@ export default function Tarefas() {
         }
 
         await addDoc( collection(db, 'tarefa'), {
+            tituloTarefa: tituloTarefa,
             tarefa: tarefa,
             created: new Date(),
             dataFormatada: dataFormatada,
@@ -52,6 +57,7 @@ export default function Tarefas() {
         .then(() => {
             toast.success('Tarefa registrada.');
             setTarefa('');
+            setTituloTarefa('');
         })
         .catch((err) => {
             console.log(`Algo deu errado: ${err}`);
@@ -72,6 +78,7 @@ export default function Tarefas() {
                 snapshot.forEach((doc) => {
                     lista.push({
                         id: doc.id,
+                        tituloTarefa: doc.data()?.tituloTarefa,
                         tarefa: doc.data()?.tarefa,
                         email: doc.data()?.email,
                         uid: doc.data()?.uid,
@@ -97,8 +104,10 @@ export default function Tarefas() {
                 snapshot.forEach((doc) => {
                     lista.push({
                         id: doc.id,
+                        tituloTarefa: doc.data()?.tituloTarefa,
                         tarefa: doc.data()?.tarefa,
                         created: doc.data()?.created,
+                        endTask: doc.data()?.endTask,
                         email: doc.data()?.email,
                         uid: doc.data()?.uid,
                         emailFormatado: doc.data()?.emailFormatado
@@ -112,10 +121,14 @@ export default function Tarefas() {
 
     async function concluiExcluiTarefa(item) {
         /**resgatando as tarefas pelo parametro e gravando elas em outra colecao */
+        let dataAtual = new Date();
+        let dataFormatada = `${dataAtual.toLocaleDateString()} ${dataAtual.toLocaleTimeString()}`;
 
         await addDoc( collection(db, 'tarefaExcluida'), {
+            tituloTarefa: item.tituloTarefa,
             tarefa: item.tarefa,
             created: item.dataFormatada,
+            endTask: dataFormatada,
             uid: item?.uid,
             email: item?.email,
             emailFormatado: item?.email.split('@')[0]
@@ -201,18 +214,28 @@ export default function Tarefas() {
                 <div className='tarefasPendentes'>
 
                     <form onSubmit={cadastraTarefa} className='boxForm'>
-                        <textarea 
-                            placeholder='Digite sua tarefa.'
-                            value={tarefa}
-                            onChange={ (e)=> setTarefa(e.target.value) }
-
+                        <input type="text" 
+                            placeholder='Para Começar digite o Titulo para esta tarefa.'
+                            required
+                            value={tituloTarefa}
+                            onChange={ (e) => setTituloTarefa(e.target.value) }
                         />
-                            <button className='btnCadastraTarefa' type='submit'>
-                                Cadastrar tarefa
-                            </button>
-                            <div className='contadorCaracter'>
-                                Palavras: {tarefa.length === 0 ? (0): (contadorPalavras)} | Letras: {contadorCaracter}
-                            </div>
+                        {tituloTarefa.length > 0 && (
+                            <>
+                                <textarea 
+                                placeholder='Digite o objetivo desta tarefa.'
+                                value={tarefa}
+                                onChange={ (e)=> setTarefa(e.target.value) }
+                                required
+                                />
+                                <button className='btnCadastraTarefa' type='submit'>
+                                    Cadastrar tarefa
+                                </button>
+                                <div className='contadorCaracter'>
+                                    Palavras: {tarefa.length === 0 ? (0): (contadorPalavras)} | Letras: {contadorCaracter}
+                                </div>
+                            </>
+                        )}
                     </form>
 
                     <form className='boxFormEditTarefa' onSubmit={buscarTarefa}>
@@ -256,7 +279,9 @@ export default function Tarefas() {
                         {listaTarefaPendente.map((item) => (
                             
                             <div className='cardTarefa etiquetaPendente' key={item.id}>
-                                <p className='nomeTarefa'>{item.tarefa}</p>
+                                <p className='tituloTarefa'> <FaTasks className='iconTask' size={23}/> {item.tituloTarefa}</p>
+                                <p className='nomeTarefa'><BiTask size={25}/></p>
+                                <p className='nomeTarefa'> {item.tarefa}</p>
 
                                 <span className='criacaoTarefaTime'>
                                     Criado em: 
@@ -294,6 +319,8 @@ export default function Tarefas() {
                     <div className='boxTarefasConcluidas'>
                         {listaTarefaConcluida.map((item) => (
                             <div className='cardTarefa etiquetaConcluida' key={item.id}>
+                                <p className='tituloTarefa'><FaTasks className='iconTask' size={23}/> {item.tituloTarefa}</p>
+                                <p className='nomeTarefa'><BiTask size={25}/></p>
                                 <p className='nomeTarefa'>{item.tarefa}</p>
 
                                 <span className='criacaoTarefaTime'>
@@ -301,6 +328,12 @@ export default function Tarefas() {
                                     <time>{item.created}</time>
                                     <FcClock size={20} className='iconClock'/>
                                 </span>
+                                <span className='criacaoTarefaTime'>
+                                    Terminada em: 
+                                    <time>{item.endTask}</time>
+                                    <FcClock size={20} className='iconClock'/>
+                                </span>
+
                                 <span className='criacaoTarefaUser'>
                                     <p>Criado por: {item.emailFormatado === undefined ? (item.email) : (item.emailFormatado)}</p>
                                 </span>

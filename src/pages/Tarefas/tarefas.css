@@ -32,6 +32,17 @@
     margin-bottom: .5rem;
 }
 
+.boxForm input {
+    padding: .5rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    outline: none;
+    border: 1px solid #cecece;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    font-family: "Roboto", sans-serif;
+    font-size: .9rem;
+}
+
 .boxFormEditTarefa {
     width: 100%;
     max-width: 80%;
@@ -179,8 +190,23 @@
     border-left-style: solid;
 }
 
+.tituloTarefa {
+    font-family: "Roboto", sans-serif;
+    margin-bottom: 1rem;
+    color: #413f3f;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.iconTask {
+    margin-right: .6rem;
+}
+
 .nomeTarefa {
-    margin-bottom: 1.5rem;
+    margin-bottom: .5rem;
+    display: flex;
+    align-items: center;
 }
 
 .criacaoTarefaTime,
