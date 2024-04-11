@@ -93,6 +93,12 @@
     cursor: not-allowed;
 }
 
+.titleInputTarefa {
+    border-radius: 4px;
+    border: 1px solid #cecece;
+    margin-bottom: .5rem;
+}
+
 .btnSearchTask,
 .btnLimpaInput {
     background-color: transparent;

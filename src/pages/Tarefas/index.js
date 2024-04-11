@@ -1,11 +1,12 @@
 import './tarefas.css';
 import Header from '../../components/Header'
+
 import { FcClock } from "react-icons/fc";
 import { CiSearch } from "react-icons/ci";
 import { MdClose } from "react-icons/md";
 import { BiTask } from "react-icons/bi";
-
 import { FaTasks } from "react-icons/fa";
+
 import { toast } from 'react-toastify';
 import { useState, useEffect, useMemo } from 'react';
 import { addDoc, collection, onSnapshot, query, orderBy, doc, deleteDoc, where, updateDoc, getDoc } from 'firebase/firestore'
@@ -19,6 +20,7 @@ export default function Tarefas() {
     const [listaTarefaConcluida, setListaTarefaConcluida] = useState([]);
     const [buscaItem, setBuscaItem] = useState('');
     const [inputEdicaoTarefa, setInputEdicaoTarefa] = useState('');
+    const [tituloEdicaoTarefa, setTituloEdicaoTarefa] = useState('');
     const contadorCaracter = tarefa.length;
     const contadorPalavras = tarefa.split(' ').length;
     const hashValidator = 'VCGwgfv6GdOn7KSH1dJWgAHUm9U2';
@@ -96,7 +98,7 @@ export default function Tarefas() {
         async function carregaTarefasConcluidas() {
             const data = JSON.parse(localStorage.getItem('userDetail'))
             const listaRef = collection(db, 'tarefaExcluida');
-            const queryBusca = query(listaRef, orderBy('created', 'desc'), where('uid', '==', data?.uid) );
+            const queryBusca = query(listaRef, orderBy('endTask', 'desc'), where('uid', '==', data?.uid) );
 
             onSnapshot(queryBusca, (snapshot) => {
                 let lista = [];
@@ -167,7 +169,8 @@ export default function Tarefas() {
         const tarefaRef = doc(db, 'tarefa', buscaItem)
         await getDoc(tarefaRef)
         .then((snapshot) => {
-            setInputEdicaoTarefa(snapshot.data()?.tarefa)
+            setTituloEdicaoTarefa(snapshot.data()?.tituloTarefa);
+            setInputEdicaoTarefa(snapshot.data()?.tarefa);
         })
     }
 
@@ -175,11 +178,13 @@ export default function Tarefas() {
     async function atualizaTarefa() {
         const tarefaRef = doc(db, 'tarefa', buscaItem);
         await updateDoc(tarefaRef, {
+            tituloTarefa: tituloEdicaoTarefa,
             tarefa: inputEdicaoTarefa
         })
         .then(() => {
             setBuscaItem('');
             setInputEdicaoTarefa('');
+            setTituloEdicaoTarefa('');
             toast.success('Tarefa Editada.')
         })
         .catch((err) => {
@@ -195,6 +200,7 @@ export default function Tarefas() {
     function limpaCamposInput() {
         setBuscaItem('');
         setInputEdicaoTarefa('');
+        setTituloEdicaoTarefa();
     }
 
     const totalTarefasPendentes = useMemo(() => {
@@ -238,37 +244,46 @@ export default function Tarefas() {
                         )}
                     </form>
 
-                    <form className='boxFormEditTarefa' onSubmit={buscarTarefa}>
+                    {listaTarefaPendente.length > 0 && (
+                        <form className='boxFormEditTarefa' onSubmit={buscarTarefa}>
 
-                        <div className='boxInputEdit'>
-                            <input type="text"
-                            placeholder='Clique no ID da tarefa para editar e na lupa para trazer a tarefa.'
-                            value={buscaItem}
-                            onChange={ (e) => setBuscaItem(e.target.value)}
-                            disabled
-                            />
-                            <button type='submit' className='btnSearchTask'>
-                                <CiSearch  size={25} color='#0069d9' className='btnSearchIcon'/>
-                            </button>
-                            <a href='#limpaCampo' className='btnLimpaInput' onClick={limpaCamposInput}>
-                                <MdClose size={25} color='#0069d9' className='btnCloseIcon' />
-                            </a>
-                        </div>
-
-                        {buscaItem.length >= 15 && (
-                            <>
-                                    <textarea className='inputEdicaoTarefa'
-                                    placeholder='Edite sua Tarefa!'
-                                    value={inputEdicaoTarefa}
-                                    onChange={ (e) => setInputEdicaoTarefa(e.target.value)}
+                            <div className='boxInputEdit'>
+                                <input type="text"
+                                placeholder='Clique no ID da tarefa para editar e na lupa para trazer a tarefa.'
+                                value={buscaItem}
+                                onChange={ (e) => setBuscaItem(e.target.value)}
+                                disabled
                                 />
-
-                                <a href="#atualizarTarefa" onClick={atualizaTarefa} className='atualizaTarefa'>
-                                    Atualizar
+                                <button type='submit' className='btnSearchTask'>
+                                    <CiSearch  size={25} color='#0069d9' className='btnSearchIcon'/>
+                                </button>
+                                <a href='#limpaCampo' className='btnLimpaInput' onClick={limpaCamposInput}>
+                                    <MdClose size={25} color='#0069d9' className='btnCloseIcon' />
                                 </a>
-                            </>
-                        )}
+                            </div>
+
+                            {buscaItem.length >= 15 && (
+                                <>
+                                        <input type="text"
+                                            className='titleInputTarefa'
+                                            placeholder='Edite o titulo da sua tarefa.'
+                                            value={tituloEdicaoTarefa}
+                                            onChange={ (e) => setTituloEdicaoTarefa(e.target.value) }
+                                        />
+
+                                        <textarea className='inputEdicaoTarefa'
+                                        placeholder='Edite o objetivo da sua tarefa.'
+                                        value={inputEdicaoTarefa}
+                                        onChange={ (e) => setInputEdicaoTarefa(e.target.value)}
+                                    />
+
+                                    <a href="#atualizarTarefa" onClick={atualizaTarefa} className='atualizaTarefa'>
+                                        Atualizar
+                                    </a>
+                                </>
+                            )}
                     </form>
+                    )}
 
                     <h2>Tarefas Pendentes ({totalTarefasPendentes})</h2>
 
