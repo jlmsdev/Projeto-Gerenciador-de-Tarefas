@@ -221,6 +221,7 @@
     margin-bottom: .5rem;
     display: flex;
     align-items: center;
+    white-space: pre-wrap;
 }
 
 .criacaoTarefaTime,
