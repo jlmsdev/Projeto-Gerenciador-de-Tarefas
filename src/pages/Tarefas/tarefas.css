@@ -21,7 +21,7 @@
 .boxForm textarea {
     width: 100%;
     resize: none;
-    height: 100px;
+    height: 120px;
     border-radius: 7px;
     padding: 1rem;
     font-family: "Roboto", sans-serif;
@@ -30,6 +30,7 @@
     font-style: normal;
     outline: none;
     margin-bottom: .5rem;
+    white-space: pre-wrap;
 }
 
 .boxForm input {
