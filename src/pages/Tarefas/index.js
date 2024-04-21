@@ -269,7 +269,7 @@ export default function Tarefas() {
               </form>
             )}
 
-            <h2>Tarefas Pendentes ({totalTarefasPendentes})</h2>
+           { listaTarefaPendente.length > 0 && ( <h2>Tarefas Pendentes ({totalTarefasPendentes})</h2> ) }
 
             {listaTarefaPendente.length === 0 && (
               <span>Não existem tarefas pendentes.</span>
