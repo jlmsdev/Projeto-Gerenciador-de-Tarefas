@@ -16,7 +16,7 @@ export default function Sidebar() {
         <>
             <section className={Styles.containerSidebar}>
                 <nav className={Styles.nav}>
-                <Link to='/tarefas' className={ urlTarefas === true ? Styles.linkAtivo : '' }>
+                    <Link to='/tarefas' className={ urlTarefas === true ? Styles.linkAtivo : '' }>
                         <TbAlertHexagon className='iconeTarefa'  size={25} color='#cecece'/>
                         Tarefas Pendentes
                     </Link>

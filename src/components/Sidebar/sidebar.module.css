@@ -15,10 +15,6 @@
     margin-top: 2rem;
 }
 
-.nav .iconeTarefa {
-    margin-bottom: .5rem;
-}
-
 .linkAtivo {
     background-color: rgba(255,255,255, 0.3);
 }
@@ -32,17 +28,13 @@
     text-align: center;
     color: #cecece;
     font-size: .7rem;
-    border: 1px solid #cecece;
     border-radius: 7px;
     transition: all .4s;
     margin-bottom: 1rem;
     padding: .4rem;
+
 }
 
-.nav a:active {
-    background-color: rgba(255,255,255, 0.3);
-    color: red;
-}
 
 .nav a:hover {
     background-color: rgba(255,255,255, 0.3);
