@@ -186,12 +186,12 @@ export default function Tarefas() {
             <form onSubmit={cadastraTarefa} className="boxForm">
               <input
                 type="text"
-                placeholder="Para Começar digite o Titulo para esta tarefa com pelo menos 4 palavras"
+                placeholder="Para Começar digite o Titulo para esta tarefa com pelo menos 4 letras."
                 required
                 value={tituloTarefa}
                 onChange={(e) => setTituloTarefa(e.target.value)}
               />
-              {tituloTarefa.length > 4 && (
+              {tituloTarefa.length >= 4 && (
                 <>
                   <textarea
                     placeholder="Digite o objetivo desta tarefa."
