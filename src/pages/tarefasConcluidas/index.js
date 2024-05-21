@@ -16,7 +16,6 @@ import {
   doc, deleteDoc
 } from "firebase/firestore";
 import { db } from "../../Connection/firebaseConnection";
-import { list } from 'firebase/storage';
 
 
 
