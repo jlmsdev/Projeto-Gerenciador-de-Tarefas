@@ -34,6 +34,7 @@ export default function Tarefas() {
   const [tituloEdicaoTarefa, setTituloEdicaoTarefa] = useState("");
   const contadorCaracter = tarefa.length;
   const contadorPalavras = tarefa.split(" ").length;
+  const [carregaTask, setCarregaTask] = useState(5);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("userDetail")));
@@ -96,11 +97,11 @@ export default function Tarefas() {
             emailFormatado: doc.data()?.emailFormatado,
           });
         });
-        setListaTarefaPendente(lista);
+        setListaTarefaPendente(lista.slice(0, carregaTask));
       });
     }
     carregaTarefasPendentes();
-  }, []);
+  }, [carregaTask]);
 
 
   async function concluiExcluiTarefa(item) {
@@ -174,6 +175,10 @@ export default function Tarefas() {
   const totalTarefasPendentes = useMemo(() => {
     return listaTarefaPendente.length;
   }, [listaTarefaPendente]);
+
+  function carregaTarefa() {
+    setCarregaTask(carregaTask + 3);
+  }
 
   return (
     <>
@@ -276,13 +281,20 @@ export default function Tarefas() {
             )}
 
             <div className="boxTarefasPendentes">
+
               {listaTarefaPendente.map((item) => (
-                <div className="cardTarefa etiquetaPendente" key={item.id}>
-                  <p className="tituloTarefa">
-                    {" "}
-                    <FaTasks className="iconTask" size={23} />{" "}
-                    {item.tituloTarefa}
-                  </p>
+                <details className="cardTarefa etiquetaPendente" key={item.id}>
+                  <summary className="tituloTarefa">
+                    <div>
+                      {" "}
+                      <FaTasks className="iconTask" size={23} />{" "}
+                      {item.tituloTarefa}
+                    </div>
+                    
+                    <div>
+                      <span className="titleCreate">Criação: {item.dataFormatada}</span>
+                    </div>
+                  </summary>
                   <p className="nomeTarefa">
                     <BiTask size={25} />
                   </p>
@@ -316,8 +328,9 @@ export default function Tarefas() {
                       </a>
                     </p>
                   </div>
-                </div>
+                </details>
               ))}
+              <button className='btnCarregaTarefa red' onClick={carregaTarefa}>Carregar Mais</button>
             </div>
           </div>
         </main>

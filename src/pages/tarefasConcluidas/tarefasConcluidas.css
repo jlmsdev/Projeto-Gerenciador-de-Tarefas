@@ -1,7 +1,5 @@
 .containerTarefasConcluidas {
     width: 100%;
-    max-width: 80%;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,6 +7,7 @@
 }
 
 .tarefasConcluidas {
+    width: 60%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,6 +15,7 @@
 }
 
 .boxTarefasConcluidas {
+    width: 100%;
     display: flex;
     height: calc(100vh - 185px);
     margin: 0;
@@ -23,4 +23,29 @@
     flex-direction: column;
     align-items: center;
     overflow-y: auto;
+}
+
+.btnCarregaTarefa {
+    width: 80%;
+    padding: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    border: 0;
+    border-radius: 7px;
+    background-color: #569248;
+    color: #FFF;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all .5s;
+    outline: none;
+}
+
+.btnCarregaTarefa:hover {
+    background-color: #6ea861;
+}
+
+.red {
+    background-color: red;
 }

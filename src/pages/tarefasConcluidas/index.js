@@ -21,6 +21,7 @@ import { db } from "../../Connection/firebaseConnection";
 
 export default function TarefasConcluidas() {
     const [listaTarefaConcluida, setListaTarefaConcluida] = useState([]);
+    const [carregaTask, setCarregaTask] = useState(5)
     const hashValidator = "VCGwgfv6GdOn7KSH1dJWgAHUm9U2";
 
     useEffect(() => {
@@ -48,11 +49,11 @@ export default function TarefasConcluidas() {
                 emailFormatado: doc.data()?.emailFormatado,
               });
             });
-            setListaTarefaConcluida(lista);
+            setListaTarefaConcluida(lista.slice(0, carregaTask));
           });
         }
         carregaTarefasConcluidas();
-      }, []);
+      }, [carregaTask]);
 
       async function excluiTarefaDefinitivo(id) {
         const refDoc = doc(db, "tarefaExcluida", id);
@@ -68,6 +69,10 @@ export default function TarefasConcluidas() {
       const totalTarefasConcluidas = useMemo(() => {
         return listaTarefaConcluida.length;
       }, [listaTarefaConcluida]);
+
+      function carregaTarefa() {
+        setCarregaTask(carregaTask + 3);
+      }
     
 
     return(
@@ -85,15 +90,23 @@ export default function TarefasConcluidas() {
 
                     <div className="boxTarefasConcluidas">
                     {listaTarefaConcluida.map((item) => (
-                        <div className="cardTarefa etiquetaConcluida" key={item.id}>
-                        <p className="tituloTarefa">
-                            <FaTasks className="iconTask" size={23} />{" "}
-                            {item.tituloTarefa}
-                        </p>
-                        <p className="nomeTarefa">
-                            <BiTask size={25} />
-                        </p>
-                        <p className="nomeTarefa">{item.tarefa}</p>
+
+                        <details className="cardTarefa etiquetaConcluida" key={item.id}>
+                          <summary className="tituloTarefa">
+                            <div>
+                              {" "}
+                              <FaTasks className="iconTask" size={23} />{" "}
+                              {item.tituloTarefa}
+                           </div>
+                      
+                          <div>
+                            <span className="titleCreate">Concluida em: {item.endTask}</span>
+                        </div>
+                          </summary>
+                          <p className="nomeTarefa">
+                              <BiTask size={25} />
+                          </p>
+                          <p className="nomeTarefa">{item.tarefa}</p>
 
                         <span className="criacaoTarefaTime">
                             Criado em:
@@ -125,11 +138,16 @@ export default function TarefasConcluidas() {
                             </button>
                             )}
                         </div>
-                        </div>
+
+                        </details>
                     ))}
+                    <button className='btnCarregaTarefa' onClick={carregaTarefa}>Carregar Mais</button>
                     </div>
+                    
                     </div>
+                    
                 </div>
+                
             </div>
             
         </>
