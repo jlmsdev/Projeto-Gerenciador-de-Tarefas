@@ -143,7 +143,9 @@ export default function TarefasConcluidas() {
 
                         </details>
                     ))}
-                    <button className='btnCarregaTarefa' onClick={carregaTarefa}>Carregar Mais</button>
+                        {listaTarefaConcluida.length > 3 && (
+                          <button className='btnCarregaTarefa' onClick={carregaTarefa}>Carregar Mais</button>
+                        )}
                     </div>
                     
                     </div>
