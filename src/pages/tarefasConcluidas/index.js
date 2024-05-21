@@ -16,6 +16,7 @@ import {
   doc, deleteDoc
 } from "firebase/firestore";
 import { db } from "../../Connection/firebaseConnection";
+import { list } from 'firebase/storage';
 
 
 
@@ -23,6 +24,7 @@ export default function TarefasConcluidas() {
     const [listaTarefaConcluida, setListaTarefaConcluida] = useState([]);
     const [carregaTask, setCarregaTask] = useState(5)
     const hashValidator = "VCGwgfv6GdOn7KSH1dJWgAHUm9U2";
+    const [totaTarefas, setTotalTarefas] = useState([]);
 
     useEffect(() => {
         async function carregaTarefasConcluidas() {
@@ -50,6 +52,7 @@ export default function TarefasConcluidas() {
               });
             });
             setListaTarefaConcluida(lista.slice(0, carregaTask));
+            setTotalTarefas(lista.length);
           });
         }
         carregaTarefasConcluidas();
@@ -82,7 +85,7 @@ export default function TarefasConcluidas() {
                 <Sidebar />
                 <div className='containerTarefasConcluidas'>
                     <div className="tarefasConcluidas">
-                    <h2>Tarefas Concluidas ({totalTarefasConcluidas})</h2>
+                    <h2>Tarefas Concluidas ({totalTarefasConcluidas}) <span className="ttTarefa">Mostrando {totalTarefasConcluidas} de {totaTarefas} Tarefas</span></h2>
 
                     {listaTarefaConcluida.length === 0 && (
                     <span>Não existem tarefas Concluidas.</span>

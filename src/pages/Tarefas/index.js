@@ -35,6 +35,7 @@ export default function Tarefas() {
   const contadorCaracter = tarefa.length;
   const contadorPalavras = tarefa.split(" ").length;
   const [carregaTask, setCarregaTask] = useState(5);
+  const [totaTarefas, setTotalTarefas] = useState([]);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("userDetail")));
@@ -98,6 +99,7 @@ export default function Tarefas() {
           });
         });
         setListaTarefaPendente(lista.slice(0, carregaTask));
+        setTotalTarefas(lista.length);
       });
     }
     carregaTarefasPendentes();
@@ -274,8 +276,12 @@ export default function Tarefas() {
               </form>
             )}
 
-           { listaTarefaPendente.length > 0 && ( <h2>Tarefas Pendentes ({totalTarefasPendentes})</h2> ) }
-
+           { listaTarefaPendente.length > 0 && ( 
+            <>
+              <h2>Tarefas Pendentes ({totalTarefasPendentes}) <span className="ttTarefa">Mostrando {totalTarefasPendentes} de {totaTarefas} Tarefas</span></h2>
+            </> 
+            
+           ) }
             {listaTarefaPendente.length === 0 && (
               <span>Não existem tarefas pendentes.</span>
             )}
