@@ -336,7 +336,9 @@ export default function Tarefas() {
                   </div>
                 </details>
               ))}
-              <button className='btnCarregaTarefa red' onClick={carregaTarefa}>Carregar Mais</button>
+                {listaTarefaPendente.length > 3 && (
+                  <button className='btnCarregaTarefa red' onClick={carregaTarefa}>Carregar Mais</button>
+                )}
             </div>
           </div>
         </main>
