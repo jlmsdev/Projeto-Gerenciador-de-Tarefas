@@ -8,7 +8,7 @@ import { MdClose } from "react-icons/md";
 import { BiTask } from "react-icons/bi";
 import { FaTasks } from "react-icons/fa";
 
-import { toast } from "react-toastify";
+import { toast } from 'react-hot-toast';
 import { useState, useEffect, useMemo } from "react";
 import {
   addDoc,
@@ -48,7 +48,7 @@ export default function Tarefas() {
     let dataFormatada = `${dataAtual.toLocaleDateString()} ${dataAtual.toLocaleTimeString()}`;
 
     if (tarefa === "") {
-      toast.info("Preencha com uma tarefa.");
+      toast.error("Preencha com uma tarefa.");
       return;
     }
 
@@ -66,10 +66,10 @@ export default function Tarefas() {
         setTituloTarefa("");
         setTituloEdicaoTarefa("");
         setInputEdicaoTarefa("");
-        toast.info("Tarefa registrada.");
+        toast.success("Tarefa registrada.");
       })
       .catch((err) => {
-        console.log(`Algo deu errado: ${err}`);
+        toast.error(`Algo deu errado ${err}`);
       });
   }
 
@@ -124,7 +124,7 @@ export default function Tarefas() {
         toast.success("Tarefa concluida.");
       })
       .catch((err) => {
-        console.log(`Algo deu errado: ${err}`);
+        toast.error(`Algo deu errado ${err}`);
       });
 
     /**capturando id pelo parametro da funcao e excluindo da colecao tarefas */
@@ -136,7 +136,7 @@ export default function Tarefas() {
     e.preventDefault();
 
     if (buscaItem === "") {
-      toast.warn("Campo não pode ser vazio.");
+      toast.error("Campo não pode ser vazio.");
       return;
     }
 
@@ -149,6 +149,7 @@ export default function Tarefas() {
 
   async function atualizaTarefa() {
     const tarefaRef = doc(db, "tarefa", buscaItem);
+    toast.success('Modo edição de tarefa.');
     await updateDoc(tarefaRef, {
       tituloTarefa: tituloEdicaoTarefa,
       tarefa: inputEdicaoTarefa,

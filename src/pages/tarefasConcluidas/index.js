@@ -4,7 +4,7 @@ import Sidebar from '../../components/Sidebar'
 import { FcClock } from "react-icons/fc";
 import { BiTask } from "react-icons/bi";
 import { FaTasks } from "react-icons/fa";
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 
 import { useState, useEffect, useMemo } from "react";
 import {
@@ -61,7 +61,7 @@ export default function TarefasConcluidas() {
         const refDoc = doc(db, "tarefaExcluida", id);
         await deleteDoc(refDoc)
           .then(() => {
-            toast.warn("Tarefa excluida com Sucesso");
+            toast.success("Tarefa excluida com Sucesso");
           })
           .catch((err) => {
             console.log(`Ops algo deu errado ${err}`);

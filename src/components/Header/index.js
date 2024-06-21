@@ -2,7 +2,7 @@ import './header.css';
 import { BiExit } from "react-icons/bi";
 import { auth } from '../../Connection/firebaseConnection';
 import { signOut } from 'firebase/auth';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
@@ -19,7 +19,7 @@ export default function Header() {
     async function sairApp() {
         await signOut(auth)
         .then(() => {
-            toast.info('Até Logo !!')
+            toast.success('Até Logo !!')
         })
         .catch((err) => {
             console.log(`Algo deu errado ${err}`);

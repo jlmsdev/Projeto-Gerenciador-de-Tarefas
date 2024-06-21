@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { auth } from '../../Connection/firebaseConnection';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -18,7 +18,7 @@ export default function Login() {
         e.preventDefault();
         
         if(email === '' || senha === '') {
-            toast.warn('E-mail ou senha em branco!');
+            toast.error('E-mail ou senha em branco!');
             return;
         }
 
