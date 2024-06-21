@@ -243,6 +243,11 @@
     white-space: pre-wrap;
 }
 
+.nomeTarefa:hover {
+    cursor: pointer;
+    color: #0069D9;
+}
+
 .criacaoTarefaTime,
 .criacaoTarefaUser {
     display: flex;

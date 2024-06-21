@@ -183,6 +183,11 @@ export default function Tarefas() {
     setCarregaTask(carregaTask + 3);
   }
 
+  function copiaTexto(tarefaNome) {
+    navigator.clipboard.writeText(tarefaNome);
+    toast.success('Tarefa copiada para area de transferência');
+  }
+
   return (
     <>
       <Header />
@@ -305,7 +310,7 @@ export default function Tarefas() {
                   <p className="nomeTarefa">
                     <BiTask size={25} />
                   </p>
-                  <p className="nomeTarefa"> {item.tarefa}</p>
+                  <p className="nomeTarefa" onClick={() => copiaTexto(item.tarefa)}> {item.tarefa}</p>
 
                   <span className="criacaoTarefaTime">
                     Criado em:
