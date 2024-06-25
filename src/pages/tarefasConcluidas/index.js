@@ -31,7 +31,7 @@ export default function TarefasConcluidas() {
           const listaRef = collection(db, "tarefaExcluida");
           const queryBusca = query(
             listaRef,
-            orderBy("endTask", "desc"),
+            orderBy("dataTarefaConcluida", "desc"),
             where("uid", "==", data?.uid)
           );
     

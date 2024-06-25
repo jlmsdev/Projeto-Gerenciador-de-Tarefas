@@ -119,6 +119,7 @@ export default function Tarefas() {
       uid: item?.uid,
       email: item?.email,
       emailFormatado: item?.email.split("@")[0],
+      dataTarefaConcluida: new Date()
     })
       .then(() => {
         toast.success("Tarefa concluida.");
