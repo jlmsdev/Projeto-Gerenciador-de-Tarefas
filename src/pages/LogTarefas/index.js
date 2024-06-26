@@ -2,14 +2,13 @@ import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 import Styles from './logs.module.css';
 import { useEffect, useState } from 'react';
-import { auth, db } from '../../Connection/firebaseConnection';
+import { db } from '../../Connection/firebaseConnection';
 import { 
     collection,
     onSnapshot,
     orderBy,
     query
 } from 'firebase/firestore';
-import { list } from "firebase/storage";
 
 
 export default function LogTarefas() {
