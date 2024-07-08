@@ -1,0 +1,18 @@
+.containerFooter {
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.containerFooter a {
+    color: #535252;
+    transition: all .7s;
+    font-size: 1.2rem;
+}
+
+.containerFooter a:hover {
+    color: #252525;
+    transform: scale(1.1);
+}

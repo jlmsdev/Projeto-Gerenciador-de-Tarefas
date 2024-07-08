@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import Styles from './login.module.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { auth } from '../../Connection/firebaseConnection';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-
-import './login.css';
+import Footer from '../../components/Footer';
 
 
 export default function Login() {
@@ -33,14 +33,16 @@ export default function Login() {
     }
 
     return(
-        <div className='containerLogin'>
+        <div className={Styles.containerLogin}>
             
-            <form onSubmit={autenticarUsuario} className='boxLogin'>
+            
+            <form onSubmit={autenticarUsuario} className={Styles.form}>
+                <div className={Styles.textForm}>
+                    <h1>Board Tarefas</h1>
+                    <p>Organize suas tarefas de maneira simples.</p>
+                </div>
 
-                <h1>Board Tarefas</h1>
-                <small>Organizador de Tarefas</small>
-
-                <div className='areaInput'>
+                <div className={Styles.boxForm}>
                     <input type="text"
                         placeholder='E-mail'
                         value={email}
@@ -53,13 +55,13 @@ export default function Login() {
                         onChange={ (e)=> setSenha(e.target.value) }
                          />
 
-                    <button className='btnLogar'>
-                        Logar
+                    <button type='submit'>
+                        Acessar
                     </button>
                 </div>
-
             </form>
 
+            <Footer />
         </div>
     );
 }
