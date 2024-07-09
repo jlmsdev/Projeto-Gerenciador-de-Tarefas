@@ -1,4 +1,4 @@
-import './cadastro.css';
+import Styles from './cadastro.module.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,8 @@ import { createUserWithEmailAndPassword,  } from 'firebase/auth';
 export default function Cadastro() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const urlAtual = window.location.href;
+    const urlCadastro = urlAtual.endsWith('/cadastro');
 
     const navigate = useNavigate();
 
@@ -35,14 +37,22 @@ export default function Cadastro() {
     }
 
     return(
-        <div className='containerLogin'>
+        <div className={Styles.containerLogin}>
             
-            <form onSubmit={autenticarUsuario} className='boxLogin'>
+            <form onSubmit={autenticarUsuario} className={Styles.form}>
 
-                <h1>Board Tarefas</h1>
-                <h2>Faça seu cadastro rápido e simples.</h2>
+                <div className={Styles.links}>
+                    <Link to='/' className={Styles.login}>Login</Link>
+                    <Link to='/cadastro' className={ urlCadastro === true ? Styles.linkAtivo: Styles.loginAtivo}>Cadastre-se</Link>
+                </div>
 
-                <div className='areaInput'>
+                <div className={Styles.textForm}>
+                    <h1>Board Tarefas</h1>
+                    <p>Faça seu cadastro rápido e simples.</p>
+                </div>
+                
+
+                <div className={Styles.boxForm}>
                     <input type="text"
                         placeholder='Digite um e-mail válido'
                         value={email}
@@ -55,16 +65,10 @@ export default function Cadastro() {
                         onChange={ (e)=> setSenha(e.target.value) }
                          />
 
-                    <button className='btnCadastrar'>
+                    <button type='submit'>
                         Cadastrar
                     </button>
 
-                    <span className='msgCad'>
-                        Já possui cadastro ?
-                        <Link to='/'>
-                            Faça login
-                        </Link>
-                    </span>
                 </div>
 
             </form>

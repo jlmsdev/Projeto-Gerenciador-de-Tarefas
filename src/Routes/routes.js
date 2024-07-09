@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "../pages/Login";
+import Cadastro from "../pages/Cadastro";
 import Tarefas from "../pages/Tarefas";
 import Private from "./Private";
 import TarefasConcluidas from "../pages/tarefasConcluidas";
@@ -12,6 +13,7 @@ export default function RoutesApp() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={ <Login /> }/>
+                <Route path="/cadastro" element={ <Cadastro /> }/>
                 <Route path="/Tarefas" element={ <Private> <Tarefas /> </Private> }/>
                 <Route path="/Tarefas/TarefasConcluidas" element={ <Private> <TarefasConcluidas /> </Private> }/>
                 <Route path="/Tarefas/logTarefasCriadas" element={<Private><LogTarefas /></Private>}/>

@@ -54,15 +54,15 @@
     margin-bottom: 3rem;
 }
 
-.linkAtivo{
-    border-bottom: 2px solid #18C29C;
-}
-
 .links a {
     color: #535252;
     padding: .5rem;
+    transition: all .6s;
 }
 
+.linkAtivo{
+    border-bottom: 2px solid #18C29C;
+}
 
 .boxForm {
     width: 100%;
@@ -71,7 +71,7 @@
 }
 
 .boxForm input::placeholder {
-    color: #033329;
+    color: #535252;
     font-weight: bold;
 }
 

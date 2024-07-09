@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Styles from './login.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { auth } from '../../Connection/firebaseConnection';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -35,8 +35,13 @@ export default function Login() {
     return(
         <div className={Styles.containerLogin}>
             
-            
             <form onSubmit={autenticarUsuario} className={Styles.form}>
+
+                <div className={Styles.links}>
+                    <Link to='/' className={ Styles.linkAtivo }>Login</Link>
+                    <Link to='/cadastro' className={Styles}>Cadastre-se</Link>
+                </div>
+
                 <div className={Styles.textForm}>
                     <h1>Board Tarefas</h1>
                     <p>Organize suas tarefas de maneira simples.</p>
