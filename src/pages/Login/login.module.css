@@ -41,7 +41,7 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.7);
     border-radius: 7px;
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }

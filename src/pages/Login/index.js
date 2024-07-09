@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Styles from './login.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { auth } from '../../Connection/firebaseConnection';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -28,7 +28,7 @@ export default function Login() {
             toast.success('Bem Vindo!');
         })
         .catch((err) => {
-            toast.info(`E-mail ou senha incorretos!`);
+            toast.error(`E-mail ou senha incorretos!`);
         })
     }
 
