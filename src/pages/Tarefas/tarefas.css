@@ -303,3 +303,33 @@
 .btnConcluir.excluir {
     background-color: red;
 }
+
+
+.boxBuscaTarefa {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+}
+
+.boxBuscaTarefa input {
+    width: 100%;
+    margin-bottom: 1rem;
+    height: 35px;
+    outline: none;
+    border: 1px solid #cecece;
+    border-radius: 4px;
+    padding: .5rem;
+}
+
+.boxBuscaTarefa button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    background-color: #0069D9;
+    color: #FFF;
+    border: 0;
+    border-radius: 4px;
+    padding: .5rem;
+    margin-left: .3rem;
+}

@@ -21,6 +21,7 @@ import {
   where,
   updateDoc,
   getDoc,
+  getDocs
 } from "firebase/firestore";
 import { db } from "../../Connection/firebaseConnection";
 
@@ -36,6 +37,7 @@ export default function Tarefas() {
   const contadorPalavras = tarefa.split(" ").length;
   const [carregaTask, setCarregaTask] = useState(5);
   const [totaTarefas, setTotalTarefas] = useState([]);
+  const [procura, setProcura] = useState('');
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("userDetail")));
@@ -74,36 +76,37 @@ export default function Tarefas() {
   }
 
   useEffect(() => {
-    async function carregaTarefasPendentes() {
-      const data = JSON.parse(localStorage.getItem("userDetail"));
-      const listaRef = collection(db, "tarefa");
-
-      const queryBusca = query(
-        listaRef,
-        orderBy("created", "asc"),
-        where("uid", "==", data?.uid)
-      );
-
-      onSnapshot(queryBusca, (snapshot) => {
-        let lista = [];
-
-        snapshot.forEach((doc) => {
-          lista.push({
-            id: doc.id,
-            tituloTarefa: doc.data()?.tituloTarefa,
-            tarefa: doc.data()?.tarefa,
-            email: doc.data()?.email,
-            uid: doc.data()?.uid,
-            dataFormatada: doc.data()?.dataFormatada,
-            emailFormatado: doc.data()?.emailFormatado,
-          });
-        });
-        setListaTarefaPendente(lista.slice(0, carregaTask));
-        setTotalTarefas(lista.length);
-      });
-    }
     carregaTarefasPendentes();
   }, [carregaTask]);
+
+  async function carregaTarefasPendentes() {
+    const data = JSON.parse(localStorage.getItem("userDetail"));
+    const listaRef = collection(db, "tarefa");
+
+    const queryBusca = query(
+      listaRef,
+      orderBy("created", "asc"),
+      where("uid", "==", data?.uid)
+    );
+
+    onSnapshot(queryBusca, (snapshot) => {
+      let lista = [];
+
+      snapshot.forEach((doc) => {
+        lista.push({
+          id: doc.id,
+          tituloTarefa: doc.data()?.tituloTarefa,
+          tarefa: doc.data()?.tarefa,
+          email: doc.data()?.email,
+          uid: doc.data()?.uid,
+          dataFormatada: doc.data()?.dataFormatada,
+          emailFormatado: doc.data()?.emailFormatado,
+        });
+      });
+      setListaTarefaPendente(lista.slice(0, carregaTask));
+      setTotalTarefas(lista.length);
+    });
+  }
 
 
   async function concluiExcluiTarefa(item) {
@@ -187,6 +190,42 @@ export default function Tarefas() {
   function copiaTexto(tarefaNome) {
     navigator.clipboard.writeText(tarefaNome);
     toast.success('Tarefa copiada para area de transferência');
+  }
+
+  async function procuraTarefa() {
+    if(procura === '') {
+      carregaTarefasPendentes();
+      return;
+    }
+
+    setListaTarefaPendente([]);
+
+    const q = query(collection(db, "tarefa"), 
+    where('tituloTarefa', '>=', procura),
+    where('tituloTarefa', '<=', procura + '\uf8ff')
+  )
+
+  const querySnapshot = await getDocs(q)
+
+  
+  let lista = [];
+  querySnapshot.forEach((doc) => {
+      
+      lista.push({
+        id: doc.id,
+        tituloTarefa: doc.data().tituloTarefa,
+        tarefa: doc.data()?.tarefa,
+        email: doc.data()?.email,
+        uid: doc.data()?.uid,
+        dataFormatada: doc.data()?.dataFormatada,
+        emailFormatado: doc.data()?.emailFormatado,
+      });
+      
+  })
+  console.log(lista)
+  
+  
+
   }
 
   return (
@@ -286,7 +325,19 @@ export default function Tarefas() {
            { listaTarefaPendente.length > 0 && ( 
             <>
               <h2>Tarefas Pendentes ({totalTarefasPendentes}) <span className="ttTarefa">Mostrando {totalTarefasPendentes} de {totaTarefas} Tarefas</span></h2>
-            </> 
+
+              <div className="boxBuscaTarefa">
+                  <input type="text" 
+                    placeholder="Digite o nome da tarefa para procurar"
+                    value={procura}
+                    onChange={ (e) => setProcura(e.target.value)}
+                    className=""
+                  />
+                  <button onClick={procuraTarefa}>Buscar</button>
+              </div>
+            </>
+
+
             
            ) }
             {listaTarefaPendente.length === 0 && (
