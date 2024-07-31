@@ -19,7 +19,7 @@ export default function Sidebar() {
     useEffect(() => {
         setUser(
             JSON.parse(localStorage.getItem('userDetail'))
-        )
+           )
     }, [])
 
     return(
