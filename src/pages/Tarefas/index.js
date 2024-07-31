@@ -36,7 +36,6 @@ export default function Tarefas() {
   const contadorCaracter = tarefa.length;
   const contadorPalavras = tarefa.split(" ").length;
   const [carregaTask, setCarregaTask] = useState(5);
-  const [totaTarefas, setTotalTarefas] = useState([]);
   const [procura, setProcura] = useState('');
 
   useEffect(() => {
@@ -323,7 +322,7 @@ export default function Tarefas() {
 
            { listaTarefaPendente.length > 0 && ( 
             <>
-              <h2>Tarefas Pendentes ({totalTarefasPendentes}) <span className="ttTarefa">Mostrando {totalTarefasPendentes} de {totaTarefas} Tarefas</span></h2>
+              <h2>Tarefas Pendentes ({totalTarefasPendentes}) <span className="ttTarefa">Mostrando {totalTarefasPendentes} Tarefas</span></h2>
 
               <div className="boxBuscaTarefa">
                   <input type="text" 
