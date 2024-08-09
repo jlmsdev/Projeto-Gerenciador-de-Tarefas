@@ -13,7 +13,6 @@ import { useState, useEffect, useMemo } from "react";
 import {
   addDoc,
   collection,
-  onSnapshot,
   query,
   orderBy,
   doc,
@@ -21,7 +20,8 @@ import {
   where,
   updateDoc,
   getDoc,
-  getDocs
+  getDocs,
+  onSnapshot
 } from "firebase/firestore";
 import { db } from "../../Connection/firebaseConnection";
 
@@ -36,7 +36,6 @@ export default function Tarefas() {
   const contadorCaracter = tarefa.length;
   const contadorPalavras = tarefa.split(" ").length;
   const [carregaTask, setCarregaTask] = useState(5);
-  const [totaTarefas, setTotalTarefas] = useState([]);
   const [procura, setProcura] = useState('');
 
   useEffect(() => {
@@ -55,8 +54,8 @@ export default function Tarefas() {
     }
 
     await addDoc(collection(db, "tarefa"), {
-      tituloTarefa: tituloTarefa,
-      tarefa: tarefa,
+      tituloTarefa: tituloTarefa.toUpperCase(),
+      tarefa: tarefa.toUpperCase(),
       created: new Date(),
       dataFormatada: dataFormatada,
       uid: user?.uid,
@@ -77,35 +76,35 @@ export default function Tarefas() {
 
   useEffect(() => {
     carregaTarefasPendentes();
-  }, [carregaTask]);
+  }, []);
 
   async function carregaTarefasPendentes() {
     const data = JSON.parse(localStorage.getItem("userDetail"));
     const listaRef = collection(db, "tarefa");
 
-    const queryBusca = query(
-      listaRef,
-      orderBy("created", "asc"),
-      where("uid", "==", data?.uid)
-    );
+    const q = query(listaRef, orderBy('created', 'asc'), where('uid', '==', data?.uid));
 
-    onSnapshot(queryBusca, (snapshot) => {
-      let lista = [];
+   onSnapshot(q, (snapshot) => {
+    let lista = [];
 
       snapshot.forEach((doc) => {
         lista.push({
           id: doc.id,
-          tituloTarefa: doc.data()?.tituloTarefa,
-          tarefa: doc.data()?.tarefa,
-          email: doc.data()?.email,
-          uid: doc.data()?.uid,
-          dataFormatada: doc.data()?.dataFormatada,
-          emailFormatado: doc.data()?.emailFormatado,
-        });
-      });
-      setListaTarefaPendente(lista.slice(0, carregaTask));
-      setTotalTarefas(lista.length);
-    });
+          email: doc.data().email,
+          emailFormatado: doc.data().emailFormatado,
+          dataFormatada: doc.data().dataFormatada,
+          created: doc.data().created,
+          tarefa: doc.data().tarefa,
+          tituloTarefa: doc.data().tituloTarefa,
+          uid: doc.data().uid
+        })
+
+      })
+
+      setListaTarefaPendente(lista);
+   })
+
+    
   }
 
 
@@ -201,8 +200,8 @@ export default function Tarefas() {
     setListaTarefaPendente([]);
 
     const q = query(collection(db, "tarefa"), 
-    where('tituloTarefa', '>=', procura),
-    where('tituloTarefa', '<=', procura + '\uf8ff')
+    where('tituloTarefa', '>=', procura.toUpperCase()),
+    where('tituloTarefa', '<=', procura.toUpperCase() + '\uf8ff')
   )
 
   const querySnapshot = await getDocs(q)
@@ -222,8 +221,7 @@ export default function Tarefas() {
       });
       
   })
-  console.log(lista)
-  
+  setListaTarefaPendente(lista)
   
 
   }
@@ -324,7 +322,7 @@ export default function Tarefas() {
 
            { listaTarefaPendente.length > 0 && ( 
             <>
-              <h2>Tarefas Pendentes ({totalTarefasPendentes}) <span className="ttTarefa">Mostrando {totalTarefasPendentes} de {totaTarefas} Tarefas</span></h2>
+              <h2>Tarefas Pendentes ({totalTarefasPendentes}) <span className="ttTarefa">Mostrando {totalTarefasPendentes} Tarefas</span></h2>
 
               <div className="boxBuscaTarefa">
                   <input type="text" 
