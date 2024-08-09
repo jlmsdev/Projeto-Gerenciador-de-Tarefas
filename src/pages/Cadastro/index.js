@@ -2,7 +2,7 @@ import Styles from './cadastro.module.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { auth } from '../../Connection/firebaseConnection';
 import { createUserWithEmailAndPassword,  } from 'firebase/auth';
 
@@ -22,7 +22,7 @@ export default function Cadastro() {
         e.preventDefault();
         
         if(email === '' || senha === '') {
-            toast.warn('E-mail ou senha em branco!');
+            toast.error('E-mail ou senha em branco!');
             return;
         }
 
@@ -47,7 +47,7 @@ export default function Cadastro() {
                 </div>
 
                 <div className={Styles.textForm}>
-                    <h1>Board Tarefas</h1>
+                    <h1>Tasker<span className='brand'>JLMS</span> </h1>
                     <p>Faça seu cadastro rápido e simples.</p>
                 </div>
                 

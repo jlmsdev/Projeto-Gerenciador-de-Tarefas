@@ -43,7 +43,7 @@ export default function Login() {
                 </div>
 
                 <div className={Styles.textForm}>
-                    <h1>Board Tarefas</h1>
+                    <h1>Tasker<span className='brand'>JLMS</span> </h1>
                     <p>Organize suas tarefas de maneira simples.</p>
                 </div>
 
@@ -61,7 +61,7 @@ export default function Login() {
                          />
 
                     <button type='submit'>
-                        Acessar
+                        Entrar
                     </button>
                 </div>
             </form>
