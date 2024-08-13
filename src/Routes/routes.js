@@ -6,6 +6,7 @@ import Tarefas from "../pages/Tarefas";
 import Private from "./Private";
 import TarefasConcluidas from "../pages/tarefasConcluidas";
 import LogTarefas from "../pages/LogTarefas";
+import Query from "../pages/Query";
 import Erro from "../pages/Erro";
 
 export default function RoutesApp() {
@@ -17,6 +18,7 @@ export default function RoutesApp() {
                 <Route path="/Tarefas" element={ <Private> <Tarefas /> </Private> }/>
                 <Route path="/Tarefas/TarefasConcluidas" element={ <Private> <TarefasConcluidas /> </Private> }/>
                 <Route path="/Tarefas/logTarefasCriadas" element={<Private><LogTarefas /></Private>}/>
+                <Route path="/Tarefas/Query" element={<Private><Query /></Private>}/>
 
 
                 <Route path="*" element={ <Erro /> }/>

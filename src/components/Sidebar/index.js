@@ -40,6 +40,12 @@ export default function Sidebar() {
                             Log Tarefas
                         </Link>
                     )}
+                    {user.uid === idValid && (
+                        <Link to='/tarefas/query' className={ logTarefa === true ? Styles.linkAtivo : '' }>
+                            <TbLogs className='iconeTarefa'  size={25} color='#cecece'/>
+                            Minhas Querys
+                        </Link>
+                    )} 
                 </nav>
             </section>
         </>
