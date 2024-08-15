@@ -76,7 +76,7 @@ export default function Query() {
 
   useEffect(() => {
     carregaTarefasPendentes();
-  }, []);
+  }, [carregaTarefasPendentes]);
 
   async function carregaTarefasPendentes() {
     const data = JSON.parse(localStorage.getItem("userDetail"));
