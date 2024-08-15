@@ -101,7 +101,7 @@ export default function Query() {
 
       })
 
-      setListaTarefaPendente(lista.slice(0, carregaTask);
+      setListaTarefaPendente(lista.slice(0, carregaTask));
    })
 
     
