@@ -11,8 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   ref,
   uploadBytes,
-  getDownloadURL,
-  deleteObject
+  getDownloadURL
 } from 'firebase/storage';
 
 import { toast } from 'react-hot-toast';
