@@ -7,6 +7,13 @@ import { CiSearch } from "react-icons/ci";
 import { MdClose } from "react-icons/md";
 import { BiTask } from "react-icons/bi";
 import { FaTasks } from "react-icons/fa";
+import { v4 as uuidv4 } from 'uuid';
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject
+} from 'firebase/storage';
 
 import { toast } from 'react-hot-toast';
 import { useState, useEffect, useMemo } from "react";
@@ -23,7 +30,7 @@ import {
   getDocs,
   onSnapshot
 } from "firebase/firestore";
-import { db } from "../../Connection/firebaseConnection";
+import { db, storage } from "../../Connection/firebaseConnection";
 
 export default function Tarefas() {
   const [tarefa, setTarefa] = useState("");
@@ -37,6 +44,7 @@ export default function Tarefas() {
   const contadorPalavras = tarefa.split(" ").length;
   const [carregaTask, setCarregaTask] = useState(5);
   const [procura, setProcura] = useState('');
+  const [arquivoUser, setArquivoUser] = useState([]);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("userDetail")));
@@ -61,6 +69,8 @@ export default function Tarefas() {
       uid: user?.uid,
       email: user?.email,
       emailFormatado: user?.email.split("@")[0],
+      urlArquivo: arquivoUser?.url || '',
+      nomeArquivoOriginal: arquivoUser?.nomeOriginal || ''
     })
       .then(() => {
         setTarefa("");
@@ -78,8 +88,56 @@ export default function Tarefas() {
     carregaTarefasPendentes();
   }, []);
 
+  async function handleFile(e) {
+
+    const arquivo = e.target.files[0];
+
+    if(arquivo.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || arquivo.type === 'application/vnd.ms-excel,text/comma-separated-values'){
+        await subirArquivo(arquivo)
+        .then(() => {
+        console.log('Upado com sucesso');
+      })
+
+    }else {
+      alert('Formato de Envio invalido.');
+      return;
+    }
+
+
+  }
+
+  async function subirArquivo(arquivo) {
+    if(!user?.uid) {
+      return;
+    }
+
+    const currentUid = user?.uid;
+    const uidArquivo = uuidv4();
+
+    const uploadRef = ref(storage, `arquivoUsuario/${currentUid}/${uidArquivo} - ${arquivo.name}`);
+
+    uploadBytes(uploadRef, arquivo)
+    .then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((downloadURL) => {
+
+        const arquivoItem = {
+          name: uidArquivo,
+          uid: currentUid,
+          url: downloadURL,
+          nomeOriginal: arquivo.name
+        }
+
+        setArquivoUser(arquivoItem);
+
+      })
+    })
+   
+
+  }
+
   async function carregaTarefasPendentes() {
     const data = JSON.parse(localStorage.getItem("userDetail"));
+
     const listaRef = collection(db, "tarefa");
 
     const q = query(listaRef, orderBy('created', 'asc'), where('uid', '==', data?.uid));
@@ -96,12 +154,15 @@ export default function Tarefas() {
           created: doc.data().created,
           tarefa: doc.data().tarefa,
           tituloTarefa: doc.data().tituloTarefa,
-          uid: doc.data().uid
+          uid: doc.data().uid,
+          urlArquivo: doc.data().urlArquivo,
+          nomeArquivoOriginal: doc.data().nomeArquivoOriginal
         })
 
       })
 
       setListaTarefaPendente(lista);
+      console.log(lista)
    })
 
     
@@ -226,6 +287,8 @@ export default function Tarefas() {
 
   }
 
+  
+
   return (
     <>
       <Header />
@@ -250,6 +313,10 @@ export default function Tarefas() {
                     onChange={(e) => setTarefa(e.target.value)}
                     required
                   />
+                  <div className="ttTarefa">
+                    Se Precisar Anexe um arquivo para esta tarefa.
+                  </div>
+                  <input type="file" onChange={handleFile} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,text/comma-separated-values, text/csv, application/csv, image/*" />
                   <button className="btnCadastraTarefa" type="submit">
                     Cadastrar tarefa
                   </button>
@@ -375,6 +442,15 @@ export default function Tarefas() {
                         : item.emailFormatado}
                     </p>
                   </span>
+
+                  {
+                    item.nomeArquivoOriginal !== "" && item.urlArquivo !== "" && (
+                      <span className="criacaoTarefaUser">
+                        <a className="criacaoTarefaUser" href={item.urlArquivo}>Baixar Anexo - {item.nomeArquivoOriginal}</a>
+                      </span>
+                    )
+                  }
+
 
                   <div className="areaButtons">
                     <button
