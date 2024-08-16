@@ -116,7 +116,7 @@ export default function Tarefas() {
 
     const uploadRef = ref(storage, `arquivoUsuario/${currentUid}/${uidArquivo} - ${arquivo.name}`);
 
-    await uploadBytes(uploadRef, arquivo)
+     uploadBytes(uploadRef, arquivo)
     .then((snapshot) => {
       getDownloadURL(snapshot.ref).then((downloadURL) => {
 
