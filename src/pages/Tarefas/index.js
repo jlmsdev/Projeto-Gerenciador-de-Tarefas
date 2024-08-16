@@ -91,7 +91,7 @@ export default function Tarefas() {
 
     const arquivo = e.target.files[0];
 
-    if(arquivo.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || arquivo.type === 'application/vnd.ms-excel,text/comma-separated-values' || arquivo.type === 'image/*'){
+    if(arquivo.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || arquivo.type === 'application/vnd.ms-excel,text/comma-separated-values' || arquivo.type === 'image/png' || arquivo.type === 'image/jpg'){
         await subirArquivo(arquivo)
         .then(() => {
         console.log('Upado com sucesso');
