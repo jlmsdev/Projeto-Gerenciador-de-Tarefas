@@ -392,7 +392,7 @@ export default function Query() {
                   </div>
                 </details>
               ))}
-                {listaTarefaPendente.length > 5 && (
+                {listaTarefaPendente.length >= 5 && (
                   <button className='btnCarregaTarefa red' onClick={carregaTarefa}>Carregar Mais</button>
                 )}
             </div>
