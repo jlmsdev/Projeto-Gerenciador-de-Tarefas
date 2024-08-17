@@ -127,6 +127,7 @@ export default function Tarefas() {
         }
 
         setArquivoUser(arquivoItem);
+        console.log(arquivoItem);
 
       })
     })
