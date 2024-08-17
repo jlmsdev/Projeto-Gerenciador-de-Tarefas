@@ -92,6 +92,7 @@ export default function Tarefas() {
     const arquivo = e.target.files[0];
 
     if(arquivo.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || arquivo.type === 'application/vnd.ms-excel,text/comma-separated-values' || arquivo.type === 'image/png' || arquivo.type === 'image/jpeg'){
+
         await subirArquivo(arquivo)
         .then(() => {
         console.log('Upado com sucesso');
@@ -102,10 +103,10 @@ export default function Tarefas() {
       return;
     }
 
-
   }
 
   async function subirArquivo(arquivo) {
+
     if(!user?.uid) {
       return;
     }
@@ -162,7 +163,6 @@ export default function Tarefas() {
       })
 
       setListaTarefaPendente(lista);
-      console.log(lista)
    })
 
     
@@ -313,10 +313,13 @@ export default function Tarefas() {
                     onChange={(e) => setTarefa(e.target.value)}
                     required
                   />
-                  <div className="ttTarefa">
+                  <div className="text">
                     Se Precisar Anexe um arquivo para esta tarefa.
                   </div>
                   <input type="file" onChange={handleFile} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,text/comma-separated-values, text/csv, application/csv, image/*" />
+                  <div className="text">
+                    Arquivos Suportados: XLSX, XLS, PNG, JPEG.
+                  </div>
                   <button className="btnCadastraTarefa" type="submit">
                     Cadastrar tarefa
                   </button>

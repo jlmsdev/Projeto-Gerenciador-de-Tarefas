@@ -333,3 +333,12 @@
     padding: .5rem;
     margin-left: .3rem;
 }
+
+.text {
+    font-size: .8rem;
+    color: #6e6b6b;
+    font-style: italic;
+    margin-bottom: .5rem;
+}
+
+
