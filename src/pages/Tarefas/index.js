@@ -76,6 +76,7 @@ export default function Tarefas() {
         setTituloTarefa("");
         setTituloEdicaoTarefa("");
         setInputEdicaoTarefa("");
+        setArquivoUser([]);
         toast.success("Tarefa registrada.");
       })
       .catch((err) => {
@@ -91,7 +92,7 @@ export default function Tarefas() {
 
     const arquivo = e.target.files[0];
 
-    if(arquivo.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || arquivo.type === 'application/vnd.ms-excel,text/comma-separated-values'){
+    if(arquivo.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || arquivo.type === 'application/vnd.ms-excel,text/comma-separated-values' || arquivo.type === 'image/png' || arquivo.type === 'image/jpg'){
         await subirArquivo(arquivo)
         .then(() => {
         console.log('Upado com sucesso');
@@ -115,7 +116,7 @@ export default function Tarefas() {
 
     const uploadRef = ref(storage, `arquivoUsuario/${currentUid}/${uidArquivo} - ${arquivo.name}`);
 
-    uploadBytes(uploadRef, arquivo)
+     uploadBytes(uploadRef, arquivo)
     .then((snapshot) => {
       getDownloadURL(snapshot.ref).then((downloadURL) => {
 
