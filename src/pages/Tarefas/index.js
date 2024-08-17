@@ -76,7 +76,6 @@ export default function Tarefas() {
         setTituloTarefa("");
         setTituloEdicaoTarefa("");
         setInputEdicaoTarefa("");
-        setArquivoUser([]);
         toast.success("Tarefa registrada.");
       })
       .catch((err) => {
