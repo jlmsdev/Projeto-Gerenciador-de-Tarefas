@@ -282,12 +282,10 @@ export default function Tarefas() {
       });
       
   })
-  setListaTarefaPendente(lista)
+  setListaTarefaPendente(lista);
   
-
+  
   }
-
-  
 
   return (
     <>
