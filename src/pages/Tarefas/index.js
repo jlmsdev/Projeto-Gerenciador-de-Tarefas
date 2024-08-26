@@ -133,7 +133,6 @@ export default function Tarefas() {
       })
     })
    
-
   }
 
   async function carregaTarefasPendentes() {
@@ -165,7 +164,6 @@ export default function Tarefas() {
       setListaTarefaPendente(lista);
    })
 
-    
   }
 
 
@@ -284,7 +282,6 @@ export default function Tarefas() {
   })
   setListaTarefaPendente(lista);
   
-  
   }
 
   return (
@@ -293,6 +290,7 @@ export default function Tarefas() {
 
       <div className="containerApp">
         <Sidebar />
+        
         <main className="containerBoard roboto-regular">
           <div className="tarefasPendentes">
             <form onSubmit={cadastraTarefa} className="boxForm">

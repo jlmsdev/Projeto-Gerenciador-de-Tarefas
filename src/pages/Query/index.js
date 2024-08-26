@@ -37,6 +37,7 @@ export default function Query() {
   const contadorPalavras = tarefa.split(" ").length;
   const [carregaTask, setCarregaTask] = useState(5);
   const [procura, setProcura] = useState('');
+  const [listaTotalTarefas, setListaTotalTarefas] = useState([]);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("userDetail")));
@@ -102,6 +103,7 @@ export default function Query() {
       })
 
       setListaTarefaPendente(lista.slice(0, carregaTask));
+      setListaTotalTarefas(lista.length);
    })
 
     
@@ -322,7 +324,7 @@ export default function Query() {
 
            { listaTarefaPendente.length > 0 && ( 
             <>
-              <h2>Querys ({totalTarefasPendentes}) <span className="ttTarefa">Mostrando {totalTarefasPendentes} Querys </span></h2>
+              <h2>Querys ({totalTarefasPendentes}) <span className="ttTarefa">Mostrando {totalTarefasPendentes} de {listaTotalTarefas} Querys </span></h2>
 
               <div className="boxBuscaTarefa">
                   <input type="text" 
