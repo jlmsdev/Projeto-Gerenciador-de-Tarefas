@@ -185,6 +185,7 @@ export default function Tarefas() {
       dataTarefaConcluida: new Date()
     })
       .then(() => {
+        window.location.reload();
         toast.success("Tarefa concluida.");
       })
       .catch((err) => {
@@ -318,7 +319,7 @@ export default function Tarefas() {
                   <div className="text">
                     Arquivos Suportados: XLSX, XLS, PNG, JPEG.
                   </div>
-                  <button className="btnCadastraTarefa" type="submit">
+                  <button className="btnCadastraTarefa" type="submit" >
                     Cadastrar tarefa
                   </button>
                   <div className="contadorCaracter">
@@ -457,6 +458,7 @@ export default function Tarefas() {
                     <button
                       className="btnConcluir"
                       onClick={() => concluiExcluiTarefa(item)}
+                      
                     >
                       Concluir
                     </button>
