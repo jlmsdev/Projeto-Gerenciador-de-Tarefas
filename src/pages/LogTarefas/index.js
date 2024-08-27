@@ -22,7 +22,7 @@ export default function LogTarefas() {
     useEffect(() => {
         function carregaLogTarefa() {
             const listaRef = collection(db, "tarefaExcluida");
-            const queryBusca = query(listaRef, orderBy('dataTarefaConcluida', 'desc'));
+            const queryBusca = query(listaRef);
 
             onSnapshot(queryBusca, (snapshot) => {
                 let lista = [];
