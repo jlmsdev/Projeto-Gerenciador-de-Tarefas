@@ -44,7 +44,7 @@ export default function Tarefas() {
   const contadorPalavras = tarefa.split(" ").length;
   const [carregaTask, setCarregaTask] = useState(5);
   const [procura, setProcura] = useState('');
-  const [arquivoUser, setArquivoUser] = useState([]);
+  const [arquivoUser, setArquivoUser] = useState({});
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("userDetail")));
