@@ -9,7 +9,6 @@ import { db } from '../../Connection/firebaseConnection';
 import { 
     collection,
     onSnapshot,
-    orderBy,
     query
 } from 'firebase/firestore';
 
