@@ -36,6 +36,7 @@ export default function Tarefas() {
   const [tituloTarefa, setTituloTarefa] = useState("");
   const [user, setUser] = useState({});
   const [listaTarefaPendente, setListaTarefaPendente] = useState([]);
+  const [contadorTarefas, setContadorTarefas] = useState([]);
   const [buscaItem, setBuscaItem] = useState("");
   const [inputEdicaoTarefa, setInputEdicaoTarefa] = useState("");
   const [tituloEdicaoTarefa, setTituloEdicaoTarefa] = useState("");
@@ -162,6 +163,7 @@ export default function Tarefas() {
       })
 
       setListaTarefaPendente(lista);
+      setContadorTarefas(lista.length);
    })
 
   }
@@ -388,7 +390,7 @@ export default function Tarefas() {
 
            { listaTarefaPendente.length > 0 && ( 
             <>
-              <h2>Tarefas Pendentes ({totalTarefasPendentes}) <span className="ttTarefa">Mostrando {totalTarefasPendentes} Tarefas</span></h2>
+              <h2>Tarefas Pendentes ({totalTarefasPendentes}) <span className="ttTarefa">Mostrando {totalTarefasPendentes} de {contadorTarefas} Tarefas</span></h2>
 
               <div className="boxBuscaTarefa">
                   <input type="text" 
