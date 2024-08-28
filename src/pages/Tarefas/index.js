@@ -304,21 +304,22 @@ export default function Tarefas() {
                 value={tituloTarefa}
                 onChange={(e) => setTituloTarefa(e.target.value)}
               />
+              
               {tituloTarefa.length >= 4 && (
                 <>
+                  <input type="file" onChange={handleFile} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,text/comma-separated-values, text/csv, application/csv, image/*" />
+                  
+                  <div className="text">
+                    Se Precisar Anexe um arquivo para esta tarefa - Arquivos Suportados: XLSX, XLS, PNG, JPEG.
+                  </div>
+
                   <textarea
                     placeholder="Digite o objetivo desta tarefa."
                     value={tarefa}
                     onChange={(e) => setTarefa(e.target.value)}
                     required
                   />
-                  <div className="text">
-                    Se Precisar Anexe um arquivo para esta tarefa.
-                  </div>
-                  <input type="file" onChange={handleFile} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,text/comma-separated-values, text/csv, application/csv, image/*" />
-                  <div className="text">
-                    Arquivos Suportados: XLSX, XLS, PNG, JPEG.
-                  </div>
+                  
                   <button className="btnCadastraTarefa" type="submit" >
                     Cadastrar tarefa
                   </button>
