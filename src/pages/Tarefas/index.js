@@ -48,7 +48,7 @@ export default function Tarefas() {
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("userDetail")));
-  }, [user.email]);
+  }, []);
 
   async function cadastraTarefa(e) {
     e.preventDefault();
@@ -75,8 +75,6 @@ export default function Tarefas() {
       .then(() => {
         setTarefa("");
         setTituloTarefa("");
-        setTituloEdicaoTarefa("");
-        setInputEdicaoTarefa("");
         toast.success("Tarefa registrada.");
       })
       .catch((err) => {
@@ -85,8 +83,39 @@ export default function Tarefas() {
   }
 
   useEffect(() => {
+    async function carregaTarefasPendentes() {
+      const data = JSON.parse(localStorage.getItem("userDetail"));
+  
+      const listaRef = collection(db, "tarefa");
+  
+      const q = query(listaRef, orderBy('created', 'asc'), where('uid', '==', data?.uid));
+  
+     onSnapshot(q, (snapshot) => {
+      let lista = [];
+  
+        snapshot.forEach((doc) => {
+          lista.push({
+            id: doc.id,
+            email: doc.data().email,
+            emailFormatado: doc.data().emailFormatado,
+            dataFormatada: doc.data().dataFormatada,
+            created: doc.data().created,
+            tarefa: doc.data().tarefa,
+            tituloTarefa: doc.data().tituloTarefa,
+            uid: doc.data().uid,
+            urlArquivo: doc.data().urlArquivo,
+            nomeArquivoOriginal: doc.data().nomeArquivoOriginal
+          })
+  
+        })
+  
+        setListaTarefaPendente(lista.slice(0, carregaTask));
+        setContadorTarefas(lista.length);
+     })
+  
+    }
     carregaTarefasPendentes();
-  });
+  }, [carregaTask]);
 
   async function handleFile(e) {
 
@@ -136,37 +165,6 @@ export default function Tarefas() {
    
   }
 
-  async function carregaTarefasPendentes() {
-    const data = JSON.parse(localStorage.getItem("userDetail"));
-
-    const listaRef = collection(db, "tarefa");
-
-    const q = query(listaRef, orderBy('created', 'asc'), where('uid', '==', data?.uid));
-
-   onSnapshot(q, (snapshot) => {
-    let lista = [];
-
-      snapshot.forEach((doc) => {
-        lista.push({
-          id: doc.id,
-          email: doc.data().email,
-          emailFormatado: doc.data().emailFormatado,
-          dataFormatada: doc.data().dataFormatada,
-          created: doc.data().created,
-          tarefa: doc.data().tarefa,
-          tituloTarefa: doc.data().tituloTarefa,
-          uid: doc.data().uid,
-          urlArquivo: doc.data().urlArquivo,
-          nomeArquivoOriginal: doc.data().nomeArquivoOriginal
-        })
-
-      })
-
-      setListaTarefaPendente(lista.slice(0, carregaTask));
-      setContadorTarefas(lista.length);
-   })
-
-  }
 
 
   async function concluiExcluiTarefa(item) {
@@ -185,7 +183,6 @@ export default function Tarefas() {
       dataTarefaConcluida: new Date()
     })
       .then(() => {
-        window.location.reload();
         toast.success("Tarefa concluida.");
       })
       .catch((err) => {
@@ -253,39 +250,6 @@ export default function Tarefas() {
     toast.success('Tarefa copiada para area de transferência');
   }
 
-  async function procuraTarefa() {
-    if(procura === '') {
-      carregaTarefasPendentes();
-      return;
-    }
-
-    setListaTarefaPendente([]);
-
-    const q = query(collection(db, "tarefa"), 
-    where('tituloTarefa', '>=', procura.toUpperCase()),
-    where('tituloTarefa', '<=', procura.toUpperCase() + '\uf8ff')
-  )
-
-  const querySnapshot = await getDocs(q)
-
-  
-  let lista = [];
-  querySnapshot.forEach((doc) => {
-      
-      lista.push({
-        id: doc.id,
-        tituloTarefa: doc.data().tituloTarefa,
-        tarefa: doc.data()?.tarefa,
-        email: doc.data()?.email,
-        uid: doc.data()?.uid,
-        dataFormatada: doc.data()?.dataFormatada,
-        emailFormatado: doc.data()?.emailFormatado,
-      });
-      
-  })
-  setListaTarefaPendente(lista);
-  
-  }
 
   return (
     <>
@@ -393,16 +357,6 @@ export default function Tarefas() {
            { listaTarefaPendente.length > 0 && ( 
             <>
               <h2>Tarefas Pendentes ({totalTarefasPendentes}) <span className="ttTarefa">Mostrando {totalTarefasPendentes} de {contadorTarefas} Tarefas</span></h2>
-
-              <div className="boxBuscaTarefa">
-                  <input type="text" 
-                    placeholder="Digite o nome da tarefa para procurar"
-                    value={procura}
-                    onChange={ (e) => setProcura(e.target.value)}
-                    className=""
-                  />
-                  <button onClick={procuraTarefa}>Buscar</button>
-              </div>
             </>
 
 

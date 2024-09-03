@@ -66,8 +66,6 @@ export default function Query() {
       .then(() => {
         setTarefa("");
         setTituloTarefa("");
-        setTituloEdicaoTarefa("");
-        setInputEdicaoTarefa("");
         toast.success("Tarefa registrada.");
       })
       .catch((err) => {
@@ -76,38 +74,38 @@ export default function Query() {
   }
 
   useEffect(() => {
+    async function carregaTarefasPendentes() {
+      const data = JSON.parse(localStorage.getItem("userDetail"));
+      const listaRef = collection(db, "minhasQuerys");
+  
+      const q = query(listaRef, orderBy('created', 'desc'), where('uid', '==', data?.uid));
+  
+     onSnapshot(q, (snapshot) => {
+      let lista = [];
+  
+        snapshot.forEach((doc) => {
+          lista.push({
+            id: doc.id,
+            email: doc.data().email,
+            emailFormatado: doc.data().emailFormatado,
+            dataFormatada: doc.data().dataFormatada,
+            created: doc.data().created,
+            tarefa: doc.data().tarefa,
+            tituloTarefa: doc.data().tituloTarefa,
+            uid: doc.data().uid
+          })
+  
+        })
+  
+        setListaTarefaPendente(lista.slice(0, carregaTask));
+        setListaTotalTarefas(lista.length);
+     })
+  
+    }
     carregaTarefasPendentes();
   });
 
-  async function carregaTarefasPendentes() {
-    const data = JSON.parse(localStorage.getItem("userDetail"));
-    const listaRef = collection(db, "minhasQuerys");
-
-    const q = query(listaRef, orderBy('created', 'desc'), where('uid', '==', data?.uid));
-
-   onSnapshot(q, (snapshot) => {
-    let lista = [];
-
-      snapshot.forEach((doc) => {
-        lista.push({
-          id: doc.id,
-          email: doc.data().email,
-          emailFormatado: doc.data().emailFormatado,
-          dataFormatada: doc.data().dataFormatada,
-          created: doc.data().created,
-          tarefa: doc.data().tarefa,
-          tituloTarefa: doc.data().tituloTarefa,
-          uid: doc.data().uid
-        })
-
-      })
-
-      setListaTarefaPendente(lista.slice(0, carregaTask));
-      setListaTotalTarefas(lista.length);
-   })
-
-    
-  }
+  
 
 
   async function concluiExcluiTarefa(item) {
@@ -193,40 +191,6 @@ export default function Query() {
     toast.success('Tarefa copiada para area de transferência');
   }
 
-  async function procuraTarefa() {
-    if(procura === '') {
-      carregaTarefasPendentes();
-      return;
-    }
-
-    setListaTarefaPendente([]);
-
-    const q = query(collection(db, "minhasQuerys"), 
-    where('tituloTarefa', '>=', procura.toUpperCase()),
-    where('tituloTarefa', '<=', procura.toUpperCase() + '\uf8ff')
-  )
-
-  const querySnapshot = await getDocs(q)
-
-  
-  let lista = [];
-  querySnapshot.forEach((doc) => {
-      
-      lista.push({
-        id: doc.id,
-        tituloTarefa: doc.data().tituloTarefa,
-        tarefa: doc.data()?.tarefa,
-        email: doc.data()?.email,
-        uid: doc.data()?.uid,
-        dataFormatada: doc.data()?.dataFormatada,
-        emailFormatado: doc.data()?.emailFormatado,
-      });
-      
-  })
-  setListaTarefaPendente(lista)
-  
-
-  }
 
   return (
     <>
@@ -325,16 +289,6 @@ export default function Query() {
            { listaTarefaPendente.length > 0 && ( 
             <>
               <h2>Querys ({totalTarefasPendentes}) <span className="ttTarefa">Mostrando {totalTarefasPendentes} de {listaTotalTarefas} Querys </span></h2>
-
-              <div className="boxBuscaTarefa">
-                  <input type="text" 
-                    placeholder="Digite o nome da query criada"
-                    value={procura}
-                    onChange={ (e) => setProcura(e.target.value)}
-                    className=""
-                  />
-                  <button onClick={procuraTarefa}>Buscar</button>
-              </div>
             </>
 
 
