@@ -26,7 +26,6 @@ import {
   where,
   updateDoc,
   getDoc,
-  getDocs,
   onSnapshot
 } from "firebase/firestore";
 import { db, storage } from "../../Connection/firebaseConnection";
@@ -43,7 +42,6 @@ export default function Tarefas() {
   const contadorCaracter = tarefa.length;
   const contadorPalavras = tarefa.split(" ").length;
   const [carregaTask, setCarregaTask] = useState(4);
-  const [procura, setProcura] = useState('');
   const [arquivoUser, setArquivoUser] = useState({});
 
   useEffect(() => {

@@ -20,7 +20,6 @@ import {
   where,
   updateDoc,
   getDoc,
-  getDocs,
   onSnapshot
 } from "firebase/firestore";
 import { db } from "../../Connection/firebaseConnection";
@@ -36,7 +35,6 @@ export default function Query() {
   const contadorCaracter = tarefa.length;
   const contadorPalavras = tarefa.split(" ").length;
   const [carregaTask, setCarregaTask] = useState(5);
-  const [procura, setProcura] = useState('');
   const [listaTotalTarefas, setListaTotalTarefas] = useState([]);
 
   useEffect(() => {
