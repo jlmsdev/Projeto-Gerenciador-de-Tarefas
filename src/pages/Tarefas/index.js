@@ -42,7 +42,7 @@ export default function Tarefas() {
   const [tituloEdicaoTarefa, setTituloEdicaoTarefa] = useState("");
   const contadorCaracter = tarefa.length;
   const contadorPalavras = tarefa.split(" ").length;
-  const [carregaTask, setCarregaTask] = useState(5);
+  const [carregaTask, setCarregaTask] = useState(4);
   const [procura, setProcura] = useState('');
   const [arquivoUser, setArquivoUser] = useState({});
 
@@ -86,7 +86,7 @@ export default function Tarefas() {
 
   useEffect(() => {
     carregaTarefasPendentes();
-  }, []);
+  });
 
   async function handleFile(e) {
 
@@ -162,7 +162,7 @@ export default function Tarefas() {
 
       })
 
-      setListaTarefaPendente(lista);
+      setListaTarefaPendente(lista.slice(0, carregaTask));
       setContadorTarefas(lista.length);
    })
 
@@ -472,7 +472,7 @@ export default function Tarefas() {
                   </div>
                 </details>
               ))}
-                {listaTarefaPendente.length > 3 && (
+                {listaTarefaPendente.length >= 4 && (
                   <button className='btnCarregaTarefa red' onClick={carregaTarefa}>Carregar Mais</button>
                 )}
             </div>
