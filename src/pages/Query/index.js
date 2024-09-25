@@ -334,7 +334,7 @@ export default function Query() {
                       className="btnConcluir"
                       onClick={() => concluiExcluiTarefa(item)}
                     >
-                      Concluir
+                      Excluir Query
                     </button>
 
                     <p className="hashTarefa">
