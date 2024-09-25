@@ -76,7 +76,7 @@ export default function Query() {
       const data = JSON.parse(localStorage.getItem("userDetail"));
       const listaRef = collection(db, "minhasQuerys");
   
-      const q = query(listaRef, orderBy('created', 'desc'), where('uid', '==', data?.uid));
+      const q = query(listaRef, orderBy('created', 'desc'));
   
      onSnapshot(q, (snapshot) => {
       let lista = [];
