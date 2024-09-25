@@ -17,7 +17,6 @@ import {
   orderBy,
   doc,
   deleteDoc,
-  where,
   updateDoc,
   getDoc,
   onSnapshot
