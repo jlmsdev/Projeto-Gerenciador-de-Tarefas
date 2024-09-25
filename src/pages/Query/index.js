@@ -72,7 +72,7 @@ export default function Query() {
 
   useEffect(() => {
     async function carregaTarefasPendentes() {
-      const data = JSON.parse(localStorage.getItem("userDetail"));
+      //const data = JSON.parse(localStorage.getItem("userDetail"));
       const listaRef = collection(db, "minhasQuerys");
   
       const q = query(listaRef, orderBy('created', 'desc'));
