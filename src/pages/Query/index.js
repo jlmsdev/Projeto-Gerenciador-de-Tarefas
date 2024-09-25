@@ -185,7 +185,7 @@ export default function Query() {
 
   function copiaTexto(tarefaNome) {
     navigator.clipboard.writeText(tarefaNome);
-    toast.success('Tarefa copiada para area de transferência');
+    toast.success('Query Copiada para seu Ctrl + C');
   }
 
 
