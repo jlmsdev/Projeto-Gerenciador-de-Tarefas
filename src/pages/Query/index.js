@@ -17,7 +17,6 @@ import {
   orderBy,
   doc,
   deleteDoc,
-  where,
   updateDoc,
   getDoc,
   onSnapshot
@@ -72,10 +71,10 @@ export default function Query() {
 
   useEffect(() => {
     async function carregaTarefasPendentes() {
-      const data = JSON.parse(localStorage.getItem("userDetail"));
+      //const data = JSON.parse(localStorage.getItem("userDetail"));
       const listaRef = collection(db, "minhasQuerys");
   
-      const q = query(listaRef, orderBy('created', 'desc'), where('uid', '==', data?.uid));
+      const q = query(listaRef, orderBy('created', 'desc'));
   
      onSnapshot(q, (snapshot) => {
       let lista = [];
@@ -181,7 +180,7 @@ export default function Query() {
 
   function copiaTexto(tarefaNome) {
     navigator.clipboard.writeText(tarefaNome);
-    toast.success('Tarefa copiada para area de transferência');
+    toast.success('Query Copiada para seu Ctrl + C');
   }
 
 
@@ -330,7 +329,7 @@ export default function Query() {
                       className="btnConcluir"
                       onClick={() => concluiExcluiTarefa(item)}
                     >
-                      Concluir
+                      Excluir Query
                     </button>
 
                     <p className="hashTarefa">

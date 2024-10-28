@@ -14,6 +14,7 @@ export default function Sidebar() {
     const urlConcluido = urlAtual.endsWith('TarefasConcluidas');
     const logTarefa = urlAtual.endsWith('logTarefasCriadas');
     const idValid = 'VCGwgfv6GdOn7KSH1dJWgAHUm9U2';
+    const idValid2 = 'Y0ZOUt13SLfkF2w12v4KFqRVdPa2';
     const [user, setUser] = useState({});
 
     useEffect(() => {
@@ -40,7 +41,7 @@ export default function Sidebar() {
                             Log Tarefas
                         </Link>
                     )}
-                    {user.uid === idValid && (
+                    { (user.uid === idValid || user.uid === idValid2) && (
                         <Link to='/tarefas/query' className={ logTarefa === true ? Styles.linkAtivo : '' }>
                             <TbLogs className='iconeTarefa'  size={25} color='#cecece'/>
                             Minhas Querys
