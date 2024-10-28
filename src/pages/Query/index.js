@@ -34,7 +34,6 @@ export default function Query() {
   const [tituloEdicaoTarefa, setTituloEdicaoTarefa] = useState("");
   const contadorCaracter = tarefa.length;
   const contadorPalavras = tarefa.split(" ").length;
-  const [carregaTask, setCarregaTask] = useState(5);
   const [listaTotalTarefas, setListaTotalTarefas] = useState([]);
 
   useEffect(() => {
@@ -95,7 +94,7 @@ export default function Query() {
   
         })
   
-        setListaTarefaPendente(lista.slice(0, carregaTask));
+        setListaTarefaPendente(lista)
         setListaTotalTarefas(lista.length);
      })
   
@@ -179,10 +178,6 @@ export default function Query() {
   const totalTarefasPendentes = useMemo(() => {
     return listaTarefaPendente.length;
   }, [listaTarefaPendente]);
-
-  function carregaTarefa() {
-    setCarregaTask(carregaTask + 3);
-  }
 
   function copiaTexto(tarefaNome) {
     navigator.clipboard.writeText(tarefaNome);
@@ -346,9 +341,7 @@ export default function Query() {
                   </div>
                 </details>
               ))}
-                {listaTarefaPendente.length >= 5 && (
-                  <button className='btnCarregaTarefa red' onClick={carregaTarefa}>Carregar Mais</button>
-                )}
+                
             </div>
           </div>
         </main>
